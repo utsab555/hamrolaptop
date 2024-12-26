@@ -221,7 +221,7 @@ if ($result) {
         echo "
         <div>
             <b>$bl_name</b>
-            <img src='../second_hand_laptops/$bl_image' alt='$bl_name'>
+            <img src='../budget_laptops/$bl_image' alt='$bl_name'>
             <div class='parag'>
                 <p>Price: रु. $bl_amount</p>
                 <br>
@@ -243,7 +243,7 @@ if ($result) {
             echo "
             <div>
                 <b>$dl_name</b>
-                <img src='../second_hand_laptops/$dl_image' alt='$dl_name'>
+                <img src='../displayed_laptops/$dl_image' alt='$dl_name'>
                 <div class='parag'>
                     <p>Price: रु. $dl_amount</p>
                     <br>

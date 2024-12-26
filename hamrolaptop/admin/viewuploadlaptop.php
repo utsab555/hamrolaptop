@@ -124,13 +124,14 @@ table a {
                 <th scope="col">Amount</th>
                 <th scope="col">Image</th>
                 <th scope="col">Upload Date</th>
+                <th scope="col">Uploaded By</th>
                 <th scope="col">Status</th>
                 <th scope="col">Actions</th>
             </tr>
         </thead>
         <tbody>
             <?php
-                $sql = "SELECT l_id,l_name,l_model,l_processor,l_ram,l_storage,l_display,l_amount,l_addinfo,l_image,l_uploaddate,approval_status from second_hand_laptops where approval_status='pending'";
+                $sql = "SELECT s.l_id,s.l_name,u.fullname as username,s.l_model,s.l_processor,s.l_ram,s.l_storage,s.l_display,s.l_amount,s.l_addinfo,s.l_image,s.l_uploaddate,s.approval_status from second_hand_laptops s join users u on s.l_userid = u.id where s.approval_status = 'pending'";
                 $result = mysqli_query($conn, $sql);
 
                
@@ -150,6 +151,7 @@ table a {
                         $imageUrl = $row['l_image'];
                         $uploaddate = $row['l_uploaddate'];
                         $status = $row['approval_status'];
+                        $username = $row['username'];
                         
                         // Display each row
                         echo "
@@ -161,6 +163,7 @@ table a {
                             <td>$l_amount</td>
                               <td><img src='../second_hand_laptops/$imageUrl' alt='Image' style='width: 100px; height: auto;'></td>
                             <td>$uploaddate</td>
+                            <td>$username</td>
                             <td>$status</td>
                             <td>
                                  <a href='approve.php?id=$l_id' class='colorupdate' />Approve</a>
@@ -193,13 +196,14 @@ table a {
                 <th scope="col">Amount</th>
                 <th scope="col">Image</th>
                 <th scope="col">Upload Date</th>
+                <th scope="col">Uploaded By</th>
                 <th scope="col">Status</th>
                 <th scope="col">Action</th>
             </tr>
         </thead>
         <tbody>
             <?php
-                $sql = "SELECT l_id,l_name,l_model,l_processor,l_ram,l_storage,l_display,l_amount,l_addinfo,l_image,l_uploaddate,approval_status from second_hand_laptops";
+                $sql = "SELECT s.l_id,s.l_name,u.fullname as username,s.l_model,s.l_processor,s.l_ram,s.l_storage,s.l_display,s.l_amount,s.l_addinfo,s.l_image,s.l_uploaddate,s.approval_status from second_hand_laptops s join users u on s.l_userid = u.id";
                 $result = mysqli_query($conn, $sql);
 
                
@@ -218,6 +222,7 @@ table a {
                         $l_addinfo = $row['l_addinfo'];
                         $imageUrl = $row['l_image'];
                         $uploaddate = $row['l_uploaddate'];
+                        $username = $row['username'];
                         $status = $row['approval_status'];
                         
                         // Display each row
@@ -230,6 +235,7 @@ table a {
                             <td>$l_amount</td>
                               <td><img src='../second_hand_laptops/$imageUrl' alt='Image' style='width: 100px; height: auto;'></td>
                             <td>$uploaddate</td>
+                            <td>$username</td>
                             <td>$status</td>
                             <td><a href='reject.php?id=$l_id' class='colordelete'  onclick='return confirmDelete()'>Reject</a></td>
                         </tr>

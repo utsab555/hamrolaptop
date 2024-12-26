@@ -48,6 +48,13 @@ if (!isset($_SESSION['name'])) {
   font-size: 24px;
 }
 
+#ppImage{
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
 .profile-info p {
   margin: 5px 0;
   color: var(--text-muted);
@@ -88,17 +95,31 @@ if (!isset($_SESSION['name'])) {
   margin-top: 20px;
 }
 
-.btn {
-  display: inline-block;
-  background-color: var(--primary-color);
-  color: white;
-  padding: 10px 15px;
-  border-radius: var(--border-radius);
-  text-decoration: none;
-  margin-right: 10px;
-  margin-bottom: 10px;
-}
+.buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
 
+        .button {
+            flex: 1;
+            min-width: 150px;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .button-primary {
+            background: #1789fc;
+            color: white;
+            border: none;
+        }
+
+        .button-primary:hover {
+            background: #0d68d6;
+        }
 .recent-activity {
   list-style-type: none;
   padding: 0;
@@ -163,49 +184,62 @@ if (!isset($_SESSION['name'])) {
 </nav>
 <br />
 <!--nav bar ends here-->
+<?php
+$id = $_SESSION['id'];
+
+$sql = "SELECT date(created_at) as created_at FROM users WHERE id = $id";
+$result = $conn->query($sql);
+$row = $result->fetch_assoc();
+$created_at = $row['created_at'];
+$imageUrl = $_SESSION['imageUrl'];
+
+
+
+
+?>
 
 <!--your profile section starts-->
-    <div class="indexcontainer">
-        <div class="card">
-            <div class="profile-header">
-                <div class="profile-info">
-                    <h1>Utsab Nepal</h1>
-                    <p>Member since November 2024</p>
-                </div>
-            </div>
-            <div class="profile-content">
-                <div class="account-overview">
-                    <h2>Account Overview</h2>
-                    <div class="stats-grid">
-                        <div class="stat-item">
-                            <div class="stat-value">3</div>
-                            <div class="stat-label">Cart Items</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-value">7</div>
-                            <div class="stat-label">Wishlist</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-value">12</div>
-                            <div class="stat-label">Orders</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-value">8</div>
-                            <div class="stat-label">Reviews</div>
-                        </div>
-                    </div>
-                    <div class="quick-actions">
-                        <h3>Quick Actions</h3>
-                        <a href="#" class="btn">View Cart</a>
-                        <a href="#" class="btn">View Wishlist</a>
-                        <a href="#" class="btn">Account Settings</a>
-                        <a href="#" class="btn">Log Out</a>
-                    </div>
-                </div>
-               
-            </div>
-        </div>
+<div class="indexcontainer">
+  <div class="card">
+    <div class="profile-header">
+      <div class="profile-info">
+        <?php
+        echo "<img src='../$imageUrl' id='ppImage' alt='users profile picture'>";
+        ?>
+      
+        <h1><?php echo $_SESSION['name']; ?></h1>
+        <p>Phone: <?php echo $_SESSION['phone'];?></p>
+        <p>Member since <?php echo $created_at ?></p>
+      </div>
     </div>
+    <div class="profile-content">
+      <div class="account-overview">
+        <h2>Account Overview</h2>
+        <div class="stats-grid">
+          <div class="stat-item">
+            <div class="stat-value">3</div>
+            <div class="stat-label">Cart Items</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value">7</div>
+            <div class="stat-label">Wishlist</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value">12</div>
+            <div class="stat-label">Orders</div>
+          </div>
+        </div>
+        <div class="quick-actions">
+          <h3>Quick Actions</h3>
+          <div class="buttons">
+          <a href="../logout.php" class="button button-primary">Log Out</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+   
 <!--your profile section starts-->
 
     <footer>

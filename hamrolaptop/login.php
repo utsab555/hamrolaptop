@@ -1,6 +1,10 @@
 <?php
 include "connection.php";
 session_start();
+
+if (isset($_SESSION['name'])) {
+  header("location: /user/index.php");
+} 
 ?>
 
 <!DOCTYPE html>
@@ -60,6 +64,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
               $_SESSION['name'] = $row['fullname'];
               $_SESSION['email'] = $row['email'];
               $_SESSION['phone'] = $row['phone'];
+              $_SESSION['imageUrl'] = $row['image'];
               
 
               //logic to check whether the user_type is user or admin and redirect accordingly..

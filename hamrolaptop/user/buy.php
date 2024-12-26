@@ -307,7 +307,7 @@ if(isset($_GET['error'])){
 
 <div class="product-container">
 <?php
-      $sql = "SELECT l_id,l_name,l_model,l_processor,l_ram,l_storage,l_display,l_amount,l_addinfo,l_image FROM second_hand_laptops where approval_status='approved'";
+      $sql = "SELECT s.l_id,s.l_name,u.fullname as username,s.l_model,s.l_processor,s.l_ram,s.l_storage,s.l_display,s.l_amount,s.l_addinfo,s.l_image,s.l_uploaddate,s.approval_status from second_hand_laptops s join users u on s.l_userid = u.id where s.approval_status='approved'";
       $result = mysqli_query($conn, $sql);
 
       if ($result) {
@@ -320,7 +320,9 @@ if(isset($_GET['error'])){
             $storage = $row['l_storage'];
             $display = $row['l_display'];
           $amount = $row['l_amount'];
+          $addinfo = $row['l_addinfo'];
           $imageUrl = $row['l_image'];
+          $username = $row['username'];
 
         
           echo"
@@ -358,8 +360,16 @@ if(isset($_GET['error'])){
                         <li class='spec-item'>
                             <span class='spec-label'>Display:</span> $display inch
                         </li>
+                        <li class='spec-item'>
+                            <span class='spec-label'>Additional Information:</span> $addinfo
+                        </li>
                     </ul>
                     </div>
+
+                       <div class='price-container'>
+                    <span class='current-price'>Uploaded By: $username</span>
+                </div>
+                   
                        <div class='buttons'>
                   <a href='cart.php?id=$id' class='cartBtn'>Add to Cart</a>
                     <a href='buy.php?id=$id' class='buyBtn'>Buy</a>

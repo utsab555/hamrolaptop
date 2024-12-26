@@ -40,17 +40,28 @@ include "connection.php";
     $enteredPhone="";
     $enteredDob="";
     $enteredAddress="";
+    $uploadDir = 'user_pictures/'; 
 
     $dbError = "";
 
 
      if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
+      if (isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
+
         $enteredName = $_POST['name'];
         $enteredEmail = $_POST['email'];
         $enteredPassword = $_POST['password'];
         $enteredPhone = $_POST['phone'];
         $enteredAddress = $_POST['address'];
+
+        $image = $_FILES['image'];
+        $imageName = $image['name'];
+        // str_replace(" ","_",$image['name']);
+        $imageTmpName = $image['tmp_name'];
+        $imagePath = $uploadDir . $imageName;
+        
+        if (move_uploaded_file($imageTmpName, $imagePath)) {
 
       
             // echo "You can now save the data to server";
@@ -64,7 +75,7 @@ include "connection.php";
               $dbError = "";
             // e - if not save data in table : id,name, email,password,number,dob,address
               $hashedPassword = password_hash($enteredPassword, PASSWORD_DEFAULT);
-                $sql = "insert into users(fullname,email,password,phone,address) values('$enteredName','$enteredEmail','$hashedPassword','$enteredPhone','$enteredAddress')";
+                $sql = "insert into users(fullname,email,password,phone,address,image) values('$enteredName','$enteredEmail','$hashedPassword','$enteredPhone','$enteredAddress','$imagePath')";
         
               $result = mysqli_query($conn, $sql); // returns True if data is inserted
               if ($result) {
@@ -72,11 +83,21 @@ include "connection.php";
                 header('Location: login.php');
               
               }
+              else{
+                echo "Error: " . $conn->error;
+            }
             // }
         
         }
     }
-
+    else{
+      echo "Failed to upload image!";
+    }
+  }
+  else{
+    echo "Image not uploaded or upload error!";
+  }
+}
     
    ?>
 
@@ -85,10 +106,13 @@ include "connection.php";
 
     <div class="loginsignupcontainer">
       <div class="loginsignupform-container logsign-in">
-        <form method = "POST" action="<?php echo $_SERVER["PHP_SELF"]?>" onsubmit="return validateForm()">
+        <form method = "POST" action="<?php echo $_SERVER["PHP_SELF"]?>" onsubmit="return validateForm()" enctype="multipart/form-data">
           <h1>Create Account</h1>
           <span id="nameerr" style="color:red;"></span>
           <input id="name"  name="name" type="text" placeholder="Name" value="<?php echo $enteredName; ?>" />
+        
+          <label for="image" style="color: black; font-size: 12px; margin-left: -230px;">Upload Image:</label> <span id="imageerr" style="color:red;"></span>
+          <input type="file" id="image" name="image" style="color: black;" accept="image/*" required>
 
           <span id="emailerr" style="color:red;"></span>
           <span style="color:red;"><?php echo $dbError;?></span>
@@ -130,10 +154,16 @@ include "connection.php";
             const confirmpassword = document.getElementById("confirmpassword").value;
             const phone = document.getElementById("phone").value;
             const address = document.getElementById("address").value;
+            const image = document.getElementById("image").value;
             let hasError = false;
                 // return true;
             if(name === ""){
                 document.getElementById("nameerr").innerHTML = "Name is required!";
+                hasError =  true;
+            }
+
+            if(image === ""){
+                document.getElementById("imageerr").innerHTML = "Image is required!";
                 hasError =  true;
             }
 

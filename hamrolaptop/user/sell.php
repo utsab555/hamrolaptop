@@ -153,6 +153,7 @@ $l_display = "";
 $l_amount = "";
 $l_addinfo = "";
 $dbError = "";
+$l_userid = $_SESSION['name'];
 $uploadDir = '../user_upload_laptops/'; 
 
 
@@ -168,6 +169,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $l_display = $_POST['l_display'];
     $l_amount = $_POST['l_amount'];
     $l_addinfo = $_POST['l_addinfo'];
+
     
 
     $image = $_FILES['image'];

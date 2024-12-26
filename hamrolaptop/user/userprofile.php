@@ -48,6 +48,13 @@ if (!isset($_SESSION['name'])) {
   font-size: 24px;
 }
 
+#ppImage{
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
 .profile-info p {
   margin: 5px 0;
   color: var(--text-muted);
@@ -192,6 +199,7 @@ $sql = "SELECT date(created_at) as created_at FROM users WHERE id = $id";
 $result = $conn->query($sql);
 $row = $result->fetch_assoc();
 $created_at = $row['created_at'];
+$imageUrl = $_SESSION['imageUrl'];
 
 
 
@@ -203,6 +211,10 @@ $created_at = $row['created_at'];
   <div class="card">
     <div class="profile-header">
       <div class="profile-info">
+        <?php
+        echo "<img src='../$imageUrl' id='ppImage' alt='users profile picture'>";
+        ?>
+      
         <h1><?php echo $_SESSION['name']; ?></h1>
         <p>Phone: <?php echo $_SESSION['phone'];?></p>
         <p>Member since <?php echo $created_at ?></p>

@@ -151,7 +151,19 @@ CREATE TABLE wishlist (
 );
 
 
+//add the user profile image column in users table
+
+alter table users add column image varchar(255);
 
 
+// add the foreign key constraint with cascade in INT
+
+ALTER TABLE second_hand_laptops
+ADD CONSTRAINT fk_second_hand_user
+FOREIGN KEY (user_id)
+REFERENCES users(id)
+ON DELETE CASCADE;
+
+ALTER TABLE second_hand_laptops DROP FOREIGN KEY second_hand_laptops_ibfk_1;
 
 
