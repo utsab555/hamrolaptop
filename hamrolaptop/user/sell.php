@@ -131,10 +131,6 @@ if (!isset($_SESSION['name'])) {
       </a>
       <a style="margin-left: 190px;"> <img src="logo.jpg" height="30" /></a>
     </div>
-    <ul>
-      <button><a href="../logout.php">Logout</a></button>
-  
-    </ul>
   </div>
 </nav>
 <br />

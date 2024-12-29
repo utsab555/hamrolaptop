@@ -19,6 +19,45 @@ if (!isset($_SESSION['name'])) {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="../style.css" />
     <style>
+
+.profile-container {
+  position: relative;
+}
+
+.profile-pic {
+    width: 30px;
+    height: 30px;
+  border-radius: 50%;
+  object-fit: cover;
+  cursor: pointer;
+  border: 2px solid #ddd;
+  margin-top: 10px;
+}
+
+.dropdown {
+  display: none;
+  position: absolute;
+  top: 50px;
+  right: 0;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  width: 150px;
+  z-index: 100;
+}
+
+.dropdown a {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  background-color: transparent;
+  text-align: left;
+  cursor: pointer;
+}
+
+
    table {
             width: 95%;
             border-collapse: collapse;
@@ -101,7 +140,7 @@ table a {
             </div>
 
                 <li><a href="userprofile.php"><i class="fa-solid fa-user"></i>Your Profile</a></li>
-                <li><a href="about.html"><i class="fa-solid fa-info"></i>About</a></li>
+                <li><a href="about.php"><i class="fa-solid fa-info"></i>About</a></li>
             </ul>
         </div>
     </label>
@@ -118,7 +157,15 @@ table a {
       <a style="margin-left: 190px;"> <img src="logo.jpg" height="30" /></a>
     </div>
     <ul>
-      <button><a href="../logout.php">Logout</a></button>
+
+    <div class="profile-container">
+      <img src="../<?php echo $_SESSION['imageUrl']?>" alt="Profile Picture" class="profile-pic" id="profilePic">
+      <div class="dropdown" id="dropdown">
+        <a href="userprofile.php"><i class="fa-solid fa-user"></i> Your Profile</a>
+        <hr style="color: white;">
+        <a href="../logout.php"><i class="fa-solid fa-right-from-bracket"></i> Log Out</a>
+      </div>
+    </div>
   
     </ul>
   </div>
@@ -195,6 +242,35 @@ table a {
                 return confirm("Are you sure you want to delete the laptop?");
             };
         </script>
+
+<script>
+        const profilePic = document.getElementById("profilePic");
+const dropdown = document.getElementById("dropdown");
+
+// Toggle the dropdown visibility
+profilePic.addEventListener("click", () => {
+  dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+});
+
+// Close the dropdown if clicked outside
+document.addEventListener("click", (e) => {
+  if (!profilePic.contains(e.target) && !dropdown.contains(e.target)) {
+    dropdown.style.display = "none";
+  }
+});
+
+// Example functions for buttons
+function viewProfile() {
+  alert("Redirecting to your profile...");
+  // Add logic for redirecting to the user's profile page
+}
+
+function logout() {
+  alert("Logging out...");
+  // Add logic for logging the user out
+}
+
+      </script>
     
 </body>
 

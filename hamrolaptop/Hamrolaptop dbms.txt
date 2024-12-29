@@ -160,10 +160,43 @@ alter table users add column image varchar(255);
 
 ALTER TABLE second_hand_laptops
 ADD CONSTRAINT fk_second_hand_user
-FOREIGN KEY (user_id)
+FOREIGN KEY (l_userid)
 REFERENCES users(id)
 ON DELETE CASCADE;
 
 ALTER TABLE second_hand_laptops DROP FOREIGN KEY second_hand_laptops_ibfk_1;
+
+---29 December 2024----
+
+//update the approval_status column to set the enum like this
+
+ALTER TABLE second_hand_laptops
+MODIFY COLUMN approval_status ENUM('approved', 'pending', 'ordered', 'purchased') NOT NULL;
+
+
+// orders table
+
+CREATE TABLE orders (
+    order_id INT AUTO_INCREMENT PRIMARY KEY,
+    laptop_id INT NOT NULL,
+    address TEXT NOT NULL,
+    order_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    FOREIGN KEY (laptop_id) REFERENCES second_hand_laptops(l_id)
+);
+
+// drop the foreign key in orders table
+
+ALTER TABLE orders DROP FOREIGN KEY orders_ibfk_1;
+ALTER TABLE orders DROP FOREIGN KEY orders_ibfk_2;
+
+
+//add foreign key with on delete cascade
+
+ALTER TABLE orders
+ADD CONSTRAINT orders_user_fk FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+ADD CONSTRAINT orders_laptop_fk FOREIGN KEY (laptop_id) REFERENCES second_hand_laptops(l_id) ON DELETE CASCADE;
+
+
 
 

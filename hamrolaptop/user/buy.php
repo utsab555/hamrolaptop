@@ -35,8 +35,49 @@ if(isset($_GET['error'])){
     <title>Laptop Product Page</title>
     <link rel="website icon" href="logo.jpg" type="h/jpg" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="../style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Poppins&family=Rubik+Vinyl&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="../style.css">
     <style>
+
+.profile-container {
+  position: relative;
+}
+
+.profile-pic {
+    width: 30px;
+    height: 30px;
+  border-radius: 50%;
+  object-fit: cover;
+  cursor: pointer;
+  border: 2px solid #ddd;
+  margin-top: 10px;
+}
+
+.dropdown {
+  display: none;
+  position: absolute;
+  top: 50px;
+  right: 0;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  width: 150px;
+  z-index: 100;
+}
+
+.dropdown a {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  background-color: transparent;
+  text-align: left;
+  cursor: pointer;
+}
 
         .product-container {
             display: flex;
@@ -56,7 +97,7 @@ if(isset($_GET['error'])){
             grid-template-columns: 1fr;
             gap: 2rem;
             padding: 2rem;
-            background: #5E7CE2;
+            background-color: #4075c8;
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
@@ -122,7 +163,7 @@ if(isset($_GET['error'])){
         .current-price {
             font-size: 1.875rem;
             font-weight: bold;
-            color: white;
+            color:rgb(72, 255, 0);            ;
         }
 
         .specifications {
@@ -198,35 +239,45 @@ if(isset($_GET['error'])){
             text-align: center;
         }
 
-        .cartBtn {
-    background-color: blue;
-    color: white;
-    border: 2px solid blue;
-    padding: 10px;
-    margin-right: 10px;
-    margin-bottom: 10px;
-    transition: background-color 0.3s ease;
+        .buy-btn,
+.cart-btn {
+  text-decoration: none;
+  padding: 10px 15px;
+  margin: 5px;
+  border-radius: 5px;
+  display: inline-block;
+  font-size: 14px;
+  color: white;
+  transition: 0.3s;
 }
 
-.cartBtn:hover {
-    background-color: yellow;
-    color: black;
+.buy-btn {
+  background-color: #28a745;
 }
 
-.buyBtn {
-    background-color: blue;
-    color: white;
-    border: 2px solid blue;
-    padding: 10px;
-    margin-right: 10px;
-    margin-bottom: 10px;
-    transition: background-color 0.3s ease;
+.cart-btn {
+  background-color:rgb(17, 190, 167);
 }
 
-.buyBtn:hover {
-    background-color:rgb(24, 255, 109);
-    color: black;
+.buy-btn:hover {
+  background-color: #218838;
 }
+
+.cart-btn:hover {
+  background-color: #e0a800;
+}
+
+.userprofile a {
+                        font-family: 'Anton', sans-serif;
+                        font-size: 1rem;
+                        color:rgb(0, 0, 0);
+                        text-decoration: none;
+                        transition: color 0.3s ease;
+                    }
+
+                    .userprofile a:hover {
+                        color:rgb(255, 255, 255);
+                    }
 
 
       
@@ -239,6 +290,34 @@ if(isset($_GET['error'])){
             color: white;
             font-size: 0.875rem;
         }
+
+        .colorupdate {
+    background-color: blue;
+    color: white;
+    border: 2px solid blue;
+    padding: 10px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.colorupdate:hover {
+    background-color: darkblue;
+}
+
+.colordelete {
+    background-color: red;
+    color: white;
+    border: 2px solid red;
+    padding: 10px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.colordelete:hover {
+    background-color: darkred;
+}
     </style>
    
 </head>
@@ -264,7 +343,7 @@ if(isset($_GET['error'])){
             </div>
 
                 <li><a href="userprofile.php"><i class="fa-solid fa-user"></i>Your Profile</a></li>
-                <li><a href="about.html"><i class="fa-solid fa-info"></i>About</a></li>
+                <li><a href="about.php"><i class="fa-solid fa-info"></i>About</a></li>
             </ul>
         </div>
     </label>
@@ -281,7 +360,15 @@ if(isset($_GET['error'])){
       <a style="margin-left: 190px;"> <img src="logo.jpg" height="30" /></a>
     </div>
     <ul>
-      <button><a href="../logout.php">Logout</a></button>
+
+     <div class="profile-container">
+      <img src="../<?php echo $_SESSION['imageUrl']?>" alt="Profile Picture" class="profile-pic" id="profilePic">
+      <div class="dropdown" id="dropdown">
+        <a href="userprofile.php"><i class="fa-solid fa-user"></i> Your Profile</a>
+        <hr style="color: white;">
+        <a href="../logout.php"><i class="fa-solid fa-right-from-bracket"></i> Log Out</a>
+      </div>
+    </div>
   
     </ul>
   </div>
@@ -305,91 +392,130 @@ if(isset($_GET['error'])){
       <!--Search bar ends-->
       <h1 style=" font-size: 20px; text-align:center;">Second Hand Laptops</h1>
 
-<div class="product-container">
+      <div class="product-container">
 <?php
-      $sql = "SELECT s.l_id,s.l_name,u.fullname as username,s.l_model,s.l_processor,s.l_ram,s.l_storage,s.l_display,s.l_amount,s.l_addinfo,s.l_image,s.l_uploaddate,s.approval_status from second_hand_laptops s join users u on s.l_userid = u.id where s.approval_status='approved'";
+      $sql = "SELECT s.l_id, s.l_name, u.fullname as username, u.id, s.l_model, s.l_processor, s.l_ram, s.l_storage, s.l_display, s.l_amount, s.l_addinfo, s.l_image, s.l_uploaddate, s.approval_status 
+              FROM second_hand_laptops s 
+              JOIN users u ON s.l_userid = u.id 
+              WHERE s.approval_status='approved'";
       $result = mysqli_query($conn, $sql);
 
       if ($result) {
         while ($row = mysqli_fetch_assoc($result)) {
-            $id = $row['l_id'];
+          $id = $row['l_id'];
           $name = $row['l_name'];
           $model = $row['l_model'];
           $processor = $row['l_processor'];
-            $ram = $row['l_ram'];
-            $storage = $row['l_storage'];
-            $display = $row['l_display'];
+          $ram = $row['l_ram'];
+          $storage = $row['l_storage'];
+          $display = $row['l_display'];
           $amount = $row['l_amount'];
           $addinfo = $row['l_addinfo'];
           $imageUrl = $row['l_image'];
           $username = $row['username'];
+          $userid = $row['id'];
 
-        
-          echo"
-  <div class='container'>
-        <div class='product-card'>
-            <div class='product-image'>
-                <img src='$imageUrl' alt='$name'>
-                
-            </div>
+          // Check if the current user is the owner of the laptop
+          if ($userid != $_SESSION['id']) {
+              $buttons = "
+                  <a href='cart.php?id=$id' class='cart-btn'>Add to Cart</a>
+                  <a href='buylaptop.php?id=$id' class='buy-btn'>Buy</a>
+              ";
+          } else {
+              $buttons = "
+                  <a href='modifyuploadlaptop.php?id=$id' class='colorupdate'>Update</a>
+                  <a href='deleteuploadlaptop.php?id=$id' class='colordelete'>Delete</a>
+              ";
+          }
 
-            <div class='product-info'>
-                <h1 class='product-title'>
-                    $name
-                </h1>
-
-                <div class='price-container'>
-                    <span class='current-price'>रु. $amount</span>
-                </div>
-
-                <div class='specifications'>
-                    <h2 class='spec-title'>Key Specifications:</h2>
-                    <ul class='spec-list'>
-                        <li class='spec-item'>
-                            <span class='spec-label'>Model:</span> $model
-                        </li>
-                        <li class='spec-item'>
-                            <span class='spec-label'>Processor:</span> $processor
-                        </li>
-                        <li class='spec-item'>
-                            <span class='spec-label'>RAM:</span> $ram
-                        </li>
-                        <li class='spec-item'>
-                            <span class='spec-label'>Storage:</span> $storage
-                        </li>
-                        <li class='spec-item'>
-                            <span class='spec-label'>Display:</span> $display inch
-                        </li>
-                        <li class='spec-item'>
-                            <span class='spec-label'>Additional Information:</span> $addinfo
-                        </li>
-                    </ul>
-                    </div>
-
-                       <div class='price-container'>
-                    <span class='current-price'>Uploaded By: $username</span>
-                </div>
-                   
-                       <div class='buttons'>
-                  <a href='cart.php?id=$id' class='cartBtn'>Add to Cart</a>
-                    <a href='buy.php?id=$id' class='buyBtn'>Buy</a>
-                </div>
-
-                <p class='vat-notice'>**Price is inclusive of VAT**</p>
-               </div>
+          echo "
+          <div class='container'>
+              <div class='product-card'>
+                  <div class='product-image'>
+                      <div class='price-container'>
+                          <span class='userprofile'><a title='See this seller's profile' href='sellerprofile.php?user_id=$userid&laptop_id=$id'>$username</a></span>
+                      </div>
+                      <br>
+                      <img src='$imageUrl' alt='$name'>
                   </div>
-        </div>
-    </div>
 
-";
+                  <div class='product-info'>
+                      <h1 class='product-title'>
+                          $name
+                      </h1>
 
+                      <div class='price-container'>
+                          <span class='current-price'>रु. $amount</span>
+                      </div>
+
+                      <div class='specifications'>
+                          <h2 class='spec-title'>Key Specifications:</h2>
+                          <ul class='spec-list'>
+                              <li class='spec-item'>
+                                  <span class='spec-label'>Model:</span> $model
+                              </li>
+                              <li class='spec-item'>
+                                  <span class='spec-label'>Processor:</span> $processor
+                              </li>
+                              <li class='spec-item'>
+                                  <span class='spec-label'>RAM:</span> $ram
+                              </li>
+                              <li class='spec-item'>
+                                  <span class='spec-label'>Storage:</span> $storage
+                              </li>
+                              <li class='spec-item'>
+                                  <span class='spec-label'>Display:</span> $display inch
+                              </li>
+                              <li class='spec-item'>
+                                  <span class='spec-label'>Additional Information:</span> $addinfo
+                              </li>
+                          </ul>
+                      </div>
+
+                      <div class='buttons'>
+                          $buttons
+                      </div>
+
+                      <p class='vat-notice'>**Price is inclusive of VAT**</p>
+                  </div>
+              </div>
+          </div>
+          ";
         }
-    }
+      }
 ?>
-  </div>
+</div>
+
   </div>
   </main>
              
-         
+  <script>
+        const profilePic = document.getElementById("profilePic");
+const dropdown = document.getElementById("dropdown");
+
+// Toggle the dropdown visibility
+profilePic.addEventListener("click", () => {
+  dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+});
+
+// Close the dropdown if clicked outside
+document.addEventListener("click", (e) => {
+  if (!profilePic.contains(e.target) && !dropdown.contains(e.target)) {
+    dropdown.style.display = "none";
+  }
+});
+
+// Example functions for buttons
+function viewProfile() {
+  alert("Redirecting to your profile...");
+  // Add logic for redirecting to the user's profile page
+}
+
+function logout() {
+  alert("Logging out...");
+  // Add logic for logging the user out
+}
+
+      </script>
 </body>
 </html>

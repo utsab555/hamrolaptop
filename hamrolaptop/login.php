@@ -96,7 +96,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
           <span id="logpassworderr" style="color:red;"></span> 
           <input type="password" placeholder="Password" id="logpassword" name="logpassword" value="<?php echo $enteredPassword; ?>" />
           <span style="color:red;"><?php echo $dbError; ?></span>
-          <a href="#">Forget Your Password?</a>
           <button type="submit">Login</button>
         </form>
       </div>
@@ -136,6 +135,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 return true;
             }
             else{
+     
                 return false;
             }
 

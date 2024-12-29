@@ -11,7 +11,8 @@ include("../connection.php");
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>orders</title>
     <link rel="website icon" href="logo.jpg" type="h/jpg" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css
+"
         integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="../style.css" />
@@ -103,7 +104,7 @@ table a {
       <a href="admindashboard.php" class="title">Hamro laptop
 
       </a>
-      <a style="margin-left: 190px;"> <img src="logo.jpg" height="30" /></a>
+      <a style="margin-left: 190px; "> <img src="logo.jpg" height="30" /></a>
     </div>
     <ul>
       <button><a href="../logout.php">Logout</a></button>
@@ -120,24 +121,30 @@ table a {
                 <tr>
                     <th scope="col">ID</th>
                     <th scope="col">User Name</th>
+                    <th scope="col">Profile Picture</th>
+                    <th scope="col">Joined Date</th>
                     <th scope="col">Action</th>
                 </tr>
             </thead>
             <tbody>
                 <?php
-                $sql = "SELECT id, fullname FROM users;";
+                $sql = "SELECT id, fullname,created_at, image  FROM users";
                 $result = mysqli_query($conn, $sql);
 
                 if ($result) {
                     while ($row = mysqli_fetch_assoc($result)) {
                         $id = $row['id'];
                         $username = $row['fullname'];
-
+                        $imageurl = $row['image'];
+                        $joindate = $row['created_at']; 
                         // Display each row
                         echo "
                         <tr>
                             <th scope='row'>$id</th>
-                            <td>$username</td>
+                            <td><a href='usersprofile.php?user_id=$id'>$username</td>
+                            <td><img src='../$imageurl' alt='Image' style='width: 100px; height: 100px; object-fit: cover;'></td>
+                            <td>$joindate</td>
+
                             <td>
                                 <a href='delete_user.php?id=$id' class='colordelete' onclick='return confirmDelete()'>Delete</a>
                             </td>

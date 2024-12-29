@@ -112,7 +112,7 @@ include "connection.php";
           <input id="name"  name="name" type="text" placeholder="Name" value="<?php echo $enteredName; ?>" />
         
           <label for="image" style="color: black; font-size: 12px; margin-left: -230px;">Upload Image:</label> <span id="imageerr" style="color:red;"></span>
-          <input type="file" id="image" name="image" style="color: black;" accept="image/*" required>
+          <input type="file" id="image" name="image" style="color: black;" accept="image/*">
 
           <span id="emailerr" style="color:red;"></span>
           <span style="color:red;"><?php echo $dbError;?></span>

@@ -43,3 +43,31 @@ function toggleseemore(){
 }
 
 
+// javascript for profile dropdown
+
+const profilePic = document.getElementById("profilePic");
+const dropdown = document.getElementById("dropdown");
+
+// Toggle the dropdown visibility
+profilePic.addEventListener("click", () => {
+  dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+});
+
+// Close the dropdown if clicked outside
+document.addEventListener("click", (e) => {
+  if (!profilePic.contains(e.target) && !dropdown.contains(e.target)) {
+    dropdown.style.display = "none";
+  }
+});
+
+// Example functions for buttons
+function viewProfile() {
+  alert("Redirecting to your profile...");
+  // Add logic for redirecting to the user's profile page
+}
+
+function logout() {
+  alert("Logging out...");
+  // Add logic for logging the user out
+}
+

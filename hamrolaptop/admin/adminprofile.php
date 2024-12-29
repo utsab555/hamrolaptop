@@ -15,7 +15,8 @@ if (!isset($_SESSION['name'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Hamro _Laptop_home_page</title>
     <link rel="website icon" href="logo.jpg" type="h/jpg" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css
+" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="../style.css" />
     <style>
         
@@ -23,18 +24,23 @@ if (!isset($_SESSION['name'])) {
 
 
 .card {
-  background-color:dare;
-  border-radius: var(--border-radius);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  padding: 20px;
-  margin-bottom: 20px;
+  text-align: center;
+  background-color: #4075c8;
+  border-radius: 10px;
+  padding: 5px;
+  height: 100%;
+  margin-left: 50px;
+  margin-right: 50px;
+  margin-bottom: 30px;
 }
 
 .profile-header {
-  display: flex;
+
   align-items: center;
   margin-bottom: 20px;
+  text-align: center;
 }
+
 
 .profile-avatar {
   width: 100px;
@@ -61,7 +67,7 @@ if (!isset($_SESSION['name'])) {
 }
 
 .profile-content {
-  display: grid;
+  
   grid-template-columns: 1fr 1fr;
   gap: 20px;
 }
@@ -83,7 +89,7 @@ if (!isset($_SESSION['name'])) {
   font-size: 24px;
   font-weight: bold;
   margin-bottom: 5px;
-  color:black;
+  color:purple;
 }
 
 .stat-label {
@@ -109,6 +115,7 @@ if (!isset($_SESSION['name'])) {
             font-weight: 600;
             cursor: pointer;
             text-align: center;
+            margin-left: 650px;
         }
 
         .button-primary {
@@ -119,6 +126,20 @@ if (!isset($_SESSION['name'])) {
 
         .button-primary:hover {
             background: #0d68d6;
+        }
+
+        .button-logout {
+            background:rgb(231, 4, 15);
+            color: white;
+            border: none;
+       margin-bottom: 20px;
+          max-width: 100px;
+         
+
+        }
+
+        .button-logout:hover {
+            background:rgb(246, 61, 4);
         }
 .recent-activity {
   list-style-type: none;
@@ -199,8 +220,10 @@ $imageUrl = $_SESSION['imageUrl'];
 ?>
 
 <!--your profile section starts-->
-<div class="indexcontainer">
+
   <div class="card">
+    <h1 style="color:lightgreen;">Admin Profile</h1>
+    <br>
     <div class="profile-header">
       <div class="profile-info">
         <?php
@@ -209,36 +232,42 @@ $imageUrl = $_SESSION['imageUrl'];
       
         <h1><?php echo $_SESSION['name']; ?></h1>
         <p>Phone: <?php echo $_SESSION['phone'];?></p>
-        <p>Member since <?php echo $created_at ?></p>
+        <p>Admin since <?php echo $created_at ?></p>
       </div>
     </div>
     <div class="profile-content">
       <div class="account-overview">
-        <h2>Account Overview</h2>
+        <h1 style="color:lightgreen;">Account Overview</h1>
+        <br>
         <div class="stats-grid">
           <div class="stat-item">
-            <div class="stat-value">3</div>
-            <div class="stat-label">Cart Items</div>
+            <div class="stat-value">#</div>
+            <div class="stat-label">No of users</div>
+          </div>
+        
+          <div class="stat-item">
+            <div class="stat-value">#</div>
+            <div class="stat-label">No of Orders</div>
           </div>
           <div class="stat-item">
-            <div class="stat-value">7</div>
-            <div class="stat-label">Wishlist</div>
+            <div class="stat-value">#</div>
+            <div class="stat-label">No of Displayed laptops</div>
           </div>
           <div class="stat-item">
-            <div class="stat-value">12</div>
-            <div class="stat-label">Orders</div>
+            <div class="stat-value">#</div>
+            <div class="stat-label">No of Budget laptops</div>
           </div>
         </div>
-        <div class="quick-actions">
-          <h3>Quick Actions</h3>
+       
+          <br>
           <div class="buttons">
-          <a href="../logout.php" class="button button-primary">Log Out</a>
+          <a href="../logout.php" class="button button-logout">Log Out</a>
           </div>
-        </div>
+       
       </div>
     </div>
   </div>
-</div>
+
    
 <!--your profile section starts-->
 

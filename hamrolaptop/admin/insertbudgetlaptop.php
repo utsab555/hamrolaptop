@@ -9,7 +9,6 @@ include "../connection.php";
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="website icon" href="logo.jpg" type="h/jpg" />
-
     <title>Laptop Details Form</title>
     <style>
         * {
@@ -42,12 +41,18 @@ include "../connection.php";
             margin-bottom: 1.5rem;
         }
 
-        label {
+        input label {
             display: block;
             margin-bottom: 0.5rem;
             font-weight: 600;
             color: #374151;
+            
         }
+
+        label{
+            color: #374151;
+        }
+       
 
         input[type="text"],
         input[type="number"],
@@ -190,7 +195,7 @@ else{
 
 ?>
     <div class="container">
-        <h1>UploadLaptop</h1>
+    <h1>Insert BudgetLaptop <button><a href="admindashboard.php" style="font-size:30px; color:darkred;">X</a></button> </h1>
         <form id="laptopForm"  method="POST" action="<?php echo $_SERVER["PHP_SELF"] ?>" onsubmit="return validateForm()" enctype="multipart/form-data">
             <div class="form-group">
                 <label for="image">Laptop Image:</label>

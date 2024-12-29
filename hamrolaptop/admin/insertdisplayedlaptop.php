@@ -42,10 +42,13 @@ include "../connection.php";
             margin-bottom: 1.5rem;
         }
 
-        label {
+       input label {
             display: block;
             margin-bottom: 0.5rem;
             font-weight: 600;
+            
+        }
+        label{
             color: #374151;
         }
 
@@ -190,7 +193,7 @@ else{
 
 ?>
     <div class="container">
-        <h1>UploadLaptop</h1>
+        <h1>Insert Homepage Laptop <button><a href="admindashboard.php" style="font-size:30px; color:darkred;">X</a></button> </h1>
         <form id="laptopForm"  method="POST" action="<?php echo $_SERVER["PHP_SELF"] ?>" onsubmit="return validateForm()" enctype="multipart/form-data">
             <div class="form-group">
                 <label for="image">Laptop Image:</label>

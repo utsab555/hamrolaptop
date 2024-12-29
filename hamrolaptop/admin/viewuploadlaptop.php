@@ -185,7 +185,7 @@ table a {
 
 
 
-        <h1 align="center">Status of User Uploaded Laptops</h1>
+        <h1 align="center">Approved User Uploaded Laptops</h1>
         <table class="table table-success table-striped">
         <thead>
             <tr>
