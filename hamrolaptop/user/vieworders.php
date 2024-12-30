@@ -185,7 +185,7 @@ if (!isset($_SESSION['name'])) {
 <br />
 <!--nav bar ends here-->
 
-<h1 align="center">Your Cart <button><a href="userprofile.php" style="font-size:40px; color:darkgreen;">X</a></button> </h1>
+<h1 align="center">Your Orders <button><a href="userprofile.php" style="font-size:40px; color:darkgreen;">X</a></button> </h1>
 
 
 <div id="cardcontainer">
@@ -196,17 +196,18 @@ if (!isset($_SESSION['name'])) {
             $user_id = $_SESSION['id'];
 
            
-    $sql = "SELECT c.cart_id, c.laptop_id,date(c.added_at) as added_at, l.l_name, l.l_model, l.l_processor, l.l_ram, l.l_storage, l.l_display, l.l_amount, l.l_addinfo, l.l_image 
-        FROM cart c 
-        JOIN second_hand_laptops l ON c.laptop_id = l.l_id 
-        WHERE c.user_id = '$user_id' and l.approval_status='approved'";
+    $sql = "SELECT u.fullname,o.order_id, o.laptop_id,date(o.order_date) as ordered_at, l.l_name, l.l_model, l.l_processor, l.l_ram, l.l_storage, l.l_display, l.l_amount, l.l_addinfo, l.l_image , l.l_userid
+        FROM orders o 
+        JOIN second_hand_laptops l ON o.laptop_id = l.l_id 
+        JOIN users u ON l.l_userid = u.id
+        WHERE o.user_id = '$user_id'";
 
     $result = mysqli_query($conn, $sql);
   
             if ($result) {
               while ($row = mysqli_fetch_assoc($result)) {
-                $cart_id = $row['cart_id'];
-                $added_at = $row['added_at'];
+                $order_id = $row['order_id'];
+                $ordered_at = $row['ordered_at'];
                 $l_name = $row['l_name'];
                 $l_model = $row['l_model'];
                 $l_processor = $row['l_processor'];
@@ -217,12 +218,15 @@ if (!isset($_SESSION['name'])) {
                 $l_addinfo = $row['l_addinfo'];
                 $imageUrl = $row['l_image'];
                 $laptopId = $row['laptop_id'];
+                $sellerName = $row['fullname'];
               
 
           
       
                 echo "
                 <div>
+                <b>$sellerName</b>
+                <br>
                   <b>$l_name</b>
                   <img src='../second_hand_laptops/$imageUrl' alt='$l_name'>
 <div class='parag'>
@@ -234,10 +238,9 @@ if (!isset($_SESSION['name'])) {
                   <p style='text-align:left;'>Ram: $l_ram</p>
                   <p style='text-align:left;'>Storage: $l_storage</p>
                   <p style='text-align:left;'>Display: $l_display</p>
-                  <p style='text-align:left;'>Added on: $added_at</p>
+                  <p style='text-align:left;'>Added on: $ordered_at</p>
                   <br>
-                  <a href='buylaptop.php?id=$laptopId' class='buy-btn'>Buy Now</a>
-                  <a href='removecart.php?id=$cart_id' class='buy-btn'>Remove from Cart</a>
+             <p><strong>Ordered ✅</strong></p>
                 </div></div>";
               }
             }

@@ -198,5 +198,18 @@ ADD CONSTRAINT orders_user_fk FOREIGN KEY (user_id) REFERENCES users(id) ON DELE
 ADD CONSTRAINT orders_laptop_fk FOREIGN KEY (laptop_id) REFERENCES second_hand_laptops(l_id) ON DELETE CASCADE;
 
 
+// add the default value of approval_status to pending
+
+ ALTER TABLE second_hand_laptops MODIFY approval_status ENUM ('approved', 'pending', 'ordered', 'purchased') NOT NULL DEFAULT 'pending';
+
+// create notifications table
+
+ CREATE TABLE notifications (
+         id INT AUTO_INCREMENT PRIMARY KEY,
+         user_id INT NOT NULL,
+         message TEXT NOT NULL,
+         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+       FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+     );
 
 

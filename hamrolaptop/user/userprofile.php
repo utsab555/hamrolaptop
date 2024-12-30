@@ -307,10 +307,6 @@ $imageUrl = $_SESSION['imageUrl'];
             <div class="stat-value">#</div>
             <div class="stat-label">Your sales</div>
           </div>
-          <div class="stat-item">
-            <div class="stat-value">#</div>
-            <div class="stat-label">Your Purchases</div>
-          </div>
         </div>
 
         <div class="quick-actions">
@@ -321,7 +317,6 @@ $imageUrl = $_SESSION['imageUrl'];
           <a href="viewwishlist.php" class="button button-primary">View Wishlist</a>
           <a href="vieworders.php" class="button button-primary">View Orders</a>
           <a href="viewsales.php" class="button button-primary">Your Sales</a>
-          <a href="viewpurchase" class="button button-primary">Your Purchase</a>
           </div>
         </div>
        

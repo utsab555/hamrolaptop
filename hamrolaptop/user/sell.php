@@ -149,7 +149,6 @@ $l_display = "";
 $l_amount = "";
 $l_addinfo = "";
 $dbError = "";
-$l_userid = $_SESSION['name'];
 $uploadDir = '../user_upload_laptops/'; 
 
 

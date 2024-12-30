@@ -169,9 +169,12 @@ if (!isset($_SESSION['name'])) {
 <body>
 <form method='post'>
 <?php
+
+
    
  
         $l_id = $_GET['id'];
+
         $query = "SELECT * FROM second_hand_laptops WHERE l_id = '$l_id'";
         $result = mysqli_query($conn, $query);
         if ($result && mysqli_num_rows($result) > 0) {
@@ -206,7 +209,7 @@ if (!isset($_SESSION['name'])) {
            
                 <div class='form-group'>
                     <label for='shipping'><strong style='color: black;'>Shipping Address:<span style='color:red;'>*</span></strong></label>
-                    <textarea id='shipping' placeholder='Enter your shipping address' required></textarea>
+                    <textarea id='shipping' name='shipping' placeholder='Enter your shipping address' required></textarea>
                 </div>
           
         </div>
@@ -236,17 +239,45 @@ if (!isset($_SESSION['name'])) {
             </div>
         </div>
 
-        <a class='confirm-button' onclick='return addressValidation()'>Confirm Your Order</a>
+        <button type='submit' class='confirm-button' onclick='return addressValidation()'>Confirm Your Order</button>
          
     </div>
          
           ";
         } 
+
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $shipping_address = mysqli_real_escape_string($conn, $_POST['shipping']);
+            $user_id = $_SESSION['id'];
+            $l_id = $_GET['id'];
+
+            $query = "SELECT * FROM orders WHERE user_id = '$user_id' AND laptop_id = '$l_id'";
+            $result = mysqli_query($conn, $query);
+        
+            if (mysqli_num_rows($result) > 0) {
+                echo "<p>You have already ordered this laptop.</p>";
+            }
+            else{
+
+            
+        
+            $insert_query = "INSERT INTO orders (user_id, laptop_id, address) VALUES ('$user_id', '$l_id', '$shipping_address')";
+            $set_ordered = "UPDATE second_hand_laptops SET approval_status = 'ordered' WHERE l_id = '$l_id'";
+            $resultinsert = mysqli_query($conn, $insert_query);
+            $resultset = mysqli_query($conn, $set_ordered);
+
+            if ($resultinsert && $resultset) {
+            echo "<p>Order placed successfully.</p>";
+            } else {
+                echo "<p>Error placing order: " . mysqli_error($conn) . "</p>";
+            }
+        }
     }
     else {
-            echo "<p>Laptop not found or you do not have permission to view this laptop.</p>";
+            echo "<p>Laptop not found.</p>";
         
     }
+}
         ?>
     </form>
   
