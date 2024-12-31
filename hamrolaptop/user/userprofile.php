@@ -268,6 +268,27 @@ $row = $result->fetch_assoc();
 $created_at = $row['created_at'];
 $imageUrl = $_SESSION['imageUrl'];
 
+$sql_sales = "SELECT COUNT(*) as count_sales FROM second_hand_laptops WHERE l_userid = $id";
+$result_sales = $conn->query($sql_sales);
+$row_sales = $result_sales->fetch_assoc();
+$count_sales = $row_sales['count_sales'];
+
+$cart = "SELECT COUNT(*) as count_cart FROM cart WHERE user_id = $id";
+$result_cart = $conn->query($cart);
+$row_cart = $result_cart->fetch_assoc();
+$count_cart = $row_cart['count_cart'];
+
+$wishlist = "SELECT COUNT(*) as count_wishlist FROM wishlist WHERE user_id = $id";
+$result_wishlist = $conn->query($wishlist);
+$row_wishlist = $result_wishlist->fetch_assoc();
+$count_wishlist = $row_wishlist['count_wishlist'];
+
+
+$orders = "SELECT COUNT(*) as count_orders FROM orders WHERE buyer_id = $id";
+$result_orders = $conn->query($orders);
+$row_orders = $result_orders->fetch_assoc();
+$count_orders = $row_orders['count_orders'];
+
 
 
 
@@ -295,16 +316,20 @@ $imageUrl = $_SESSION['imageUrl'];
         <br>
         <div class="stats-grid">
           <div class="stat-item">
-            <div class="stat-value">#</div>
+            <div class="stat-value"><?php echo $count_cart?></div>
             <div class="stat-label">Cart Items</div>
           </div>
         
           <div class="stat-item">
-            <div class="stat-value">#</div>
+            <div class="stat-value"><?php echo $count_wishlist?></div>
             <div class="stat-label">Wishlist</div>
           </div>
           <div class="stat-item">
-            <div class="stat-value">#</div>
+            <div class="stat-value"><?php echo $count_orders?></div>
+            <div class="stat-label">Your purchases</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value"><?php echo $count_sales?></div>
             <div class="stat-label">Your sales</div>
           </div>
         </div>
@@ -315,7 +340,7 @@ $imageUrl = $_SESSION['imageUrl'];
           <div class="buttons">
           <a href="viewcart.php" class="button button-primary">View Cart</a>
           <a href="viewwishlist.php" class="button button-primary">View Wishlist</a>
-          <a href="vieworders.php" class="button button-primary">View Orders</a>
+          <a href="vieworders.php" class="button button-primary">View Purchases</a>
           <a href="viewsales.php" class="button button-primary">Your Sales</a>
           </div>
         </div>

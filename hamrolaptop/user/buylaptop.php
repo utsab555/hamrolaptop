@@ -251,32 +251,34 @@ if (!isset($_SESSION['name'])) {
             $user_id = $_SESSION['id'];
             $l_id = $_GET['id'];
 
-            $query = "SELECT * FROM orders WHERE user_id = '$user_id' AND laptop_id = '$l_id'";
+            $query = "SELECT * FROM orders WHERE buyer_id = '$user_id' AND laptop_id = '$l_id'";
             $result = mysqli_query($conn, $query);
         
             if (mysqli_num_rows($result) > 0) {
-                echo "<p>You have already ordered this laptop.</p>";
+                echo "<script>alert('You have already ordered this laptop!')</script>";
             }
             else{
 
+                $seller_query = "select l_userid from second_hand_laptops where l_id = '$l_id';";
+                $result = mysqli_query($conn, $seller_query);
+                $row = mysqli_fetch_assoc($result);
+                $seller_id = $row['l_userid'];
+
             
         
-            $insert_query = "INSERT INTO orders (user_id, laptop_id, address) VALUES ('$user_id', '$l_id', '$shipping_address')";
+            $insert_query = "INSERT INTO orders (buyer_id,seller_id, laptop_id, address) VALUES ('$user_id','$seller_id', '$l_id', '$shipping_address')";
             $set_ordered = "UPDATE second_hand_laptops SET approval_status = 'ordered' WHERE l_id = '$l_id'";
             $resultinsert = mysqli_query($conn, $insert_query);
             $resultset = mysqli_query($conn, $set_ordered);
 
             if ($resultinsert && $resultset) {
-            echo "<p>Order placed successfully.</p>";
+            echo "<p>Order placed successfully!</p>";
             } else {
                 echo "<p>Error placing order: " . mysqli_error($conn) . "</p>";
             }
         }
     }
-    else {
-            echo "<p>Laptop not found.</p>";
-        
-    }
+   
 }
         ?>
     </form>
@@ -284,22 +286,28 @@ if (!isset($_SESSION['name'])) {
 
     
     <script>
-        function addressValidation() {
-            let hasError = false;
-            if(document.getElementById('shipping').value === '') {
-                alert('Please enter your shipping address.');
-                hasError = true;
-            }
+    function addressValidation() {
+        let hasError = false;
 
-            if(!hasError) {
-            confirmOrder();
-            } else {
-                return false;
+        // Validate if the shipping address is empty
+        if (document.getElementById('shipping').value === '') {
+            alert('Please enter your shipping address.');
+            hasError = true;
         }
+
+        // If there is an error, prevent further action
+        if (hasError) {
+            return false; // Prevent order confirmation
+        }
+
+        // Confirm the order
+        return confirmOrder();
     }
-            function confirmOrder() {
-                return confirm("Are you sure you want to confirm the order?");
-            };
-        </script>
+
+    function confirmOrder() {
+        return confirm("Are you sure you want to confirm the order?");
+    }
+</script>
+
 </body>
 </html>

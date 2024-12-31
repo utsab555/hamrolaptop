@@ -212,4 +212,18 @@ ADD CONSTRAINT orders_laptop_fk FOREIGN KEY (laptop_id) REFERENCES second_hand_l
        FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
      );
 
+// create orders
+
+CREATE TABLE orders (
+    order_id INT AUTO_INCREMENT PRIMARY KEY, 
+    buyer_id INT NOT NULL,                  
+    seller_id INT NOT NULL,               
+    laptop_id INT NOT NULL,                  
+    address VARCHAR(255) NOT NULL,         
+    order_date DATETIME DEFAULT CURRENT_TIMESTAMP, 
+    
+    CONSTRAINT fk_buyer_id FOREIGN KEY (buyer_id) REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT fk_seller_id FOREIGN KEY (seller_id) REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT fk_laptop_id FOREIGN KEY (laptop_id) REFERENCES second_hand_laptops(l_id) ON DELETE CASCADE ON UPDATE CASCADE
+);
 

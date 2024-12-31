@@ -66,51 +66,63 @@ include("../connection.php");
         <table border="2px">
             <thead>
                 <tr>
-                    <th scope="col">ID</th>
-                    <th scope="col">User Name</th>
+                    <th scope="col">Order Id</th>
+                    <th scope="col">Buyer Name</th>
                     <th scope="col">Laptop Name</th>
                     <th scope="col">Laptop Model</th>
                     <th scope="col">Laptop Specification</th>
                     <th scope="col">Laptop Image</th>
-                    <th scope="col">order date</th>
-                    <th scope="col">Laptop Image</th>
-                    <th scope="col">Actions</th>
+                    <th scope="col">Seller Name</th>
+                    <th scope="col">Order date</th>
                 </tr>
             </thead>
             <tbody>
                 <?php
-                $sql = "SELECT posts.id,posts.title,posts.description,posts.image_url, users.full_name as created_by FROM posts INNER join users on posts.userid=users.id;";
+             $sql = "
+             SELECT 
+                 o.order_id,
+                 u_buyer.fullname AS buyer_name,
+                 l.l_name AS laptop_name,
+                 l.l_model AS laptop_model,
+                 CONCAT(l.l_processor, ', ', l.l_ram, ', ', l.l_storage, ', ', l.l_display) AS laptop_specification,
+                 l.l_image AS laptop_image,
+                 u_seller.fullname AS seller_name,
+                 o.order_date
+             FROM orders o
+             LEFT JOIN users u_buyer ON o.buyer_id = u_buyer.id  
+             LEFT JOIN users u_seller ON o.seller_id = u_seller.id  
+             LEFT JOIN second_hand_laptops l ON o.laptop_id = l.l_id
+         ";
                 $result = mysqli_query($conn, $sql);
+
 
                 if ($result) {
                     while ($row = mysqli_fetch_assoc($result)) {
-                        $id = $row['id'];
-                        $l_name = $row['l_name']; 
-                        $l_model = $row['l_model'];
-                        $l_specification = $row['l_specification'];
-                        $l_amount = $row['l_amount'];
-                        $l_image = $row['l_image'];
-                        $l_uploaddate = $row['l_uploaddate'];
+                        $order_id = $row['order_id'];
+                        $buyer_name = $row['buyer_name']; 
+                        $seller_name = $row['seller_name'];
+                       $laptop_name = $row['laptop_name'];
+                       $laptop_model = $row['laptop_model'];
+                          $laptop_specification = $row['laptop_specification'];
+                        $laptop_image = $row['laptop_image'];
+                        $order_date = $row['order_date'];
 
                         // Display each row
                         echo "
                         <tr>
-                            <th scope='row'>$id</th>
-                            <td>$l_name</td>
-                            <td>$l_model</td>
-                            <td>$l_specification</td>
-                            <td>$l_amount</td>
-                            <td><img src='$l_image'></td>
-                            <td>$l_uploaddate</td>
-                            <td>
-                                <a href='update_blog.php?id=$id'>Update</a>
-                                <a href='delete_blog.php?id=$id'>Delete</a>
-                            </td>
+                            <th scope='row'>$order_id</th>
+                            <td>$buyer_name</td>
+                            <td>$laptop_name</td>
+                            <td>$laptop_model</td>
+                            <td>$laptop_specification</td>
+                            <td><img src='../second_hand_laptops/$laptop_image' style='width: 100px; height: auto;'></td>
+                            <td>$seller_name</td>
+                            <td>$order_date</td>
                         </tr>
                         ";
                     }
                 } else {
-                    echo "<tr><td colspan='6'>No blog entries found.</td></tr>";
+                    echo "<tr><td colspan='6'>No orders found.</td></tr>";
                 }
 
                 // Close the connection

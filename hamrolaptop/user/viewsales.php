@@ -194,6 +194,39 @@ table a {
                 $sql = "SELECT l_id,l_name,l_model,l_processor,l_ram,l_storage,l_display,l_amount,l_addinfo,l_image,l_uploaddate,approval_status from second_hand_laptops where l_userid = $user_id";
                 $result = mysqli_query($conn, $sql);
 
+                $orderlaptop = "SELECT * FROM orders WHERE seller_id = $user_id";
+                $orderresult = mysqli_query($conn, $orderlaptop);
+                
+                // Check if query executed successfully
+                if (!$orderresult) {
+                    die("Error executing query: " . mysqli_error($conn));
+                }
+                
+                // Fetch order details
+                $orderrow = mysqli_fetch_assoc($orderresult);
+                
+                // Check if the order exists
+                if ($orderrow) {
+                    $buyerid = $orderrow['buyer_id'];
+                
+                    // Fetch buyer details
+                    $buyername = "SELECT * FROM users WHERE id = $buyerid";
+                    $buyerresult = mysqli_query($conn, $buyername);
+                
+                    // Check if query executed successfully
+                    if (!$buyerresult) {
+                        die("Error executing query: " . mysqli_error($conn));
+                    }
+                
+                    // Fetch buyer data
+                    $buyerrow = mysqli_fetch_assoc($buyerresult);
+                    $buyername = $buyerrow['fullname'];
+                } else {
+                    // Handle case where no orders are found for this seller
+                    echo "Noone has ordered your laptop yet.";
+                }
+                
+
                 if ($result) {
                     while ($row = mysqli_fetch_assoc($result)) {
                         $l_id = $row['l_id'];
@@ -208,6 +241,17 @@ table a {
                         $imageUrl = $row['l_image'];
                         $uploaddate = $row['l_uploaddate'];
                         $status = $row['approval_status'];
+
+                        if ($status == 'ordered') {
+                          $text = "
+                              <p>$status</p>
+                              <p>by <a href='buyerprofile.php?user_id=$buyerid'>$buyername</a></p>
+                          ";
+                      } else {
+                          $text = "
+                            <p>$status</p>
+                          ";
+                      }
                         
                         // Display each row
                         echo "
@@ -219,7 +263,7 @@ table a {
                             <td>$l_amount</td>
                               <td><img src='../second_hand_laptops/$imageUrl' alt='Image' style='width: 100px; height: auto;'></td>
                             <td>$uploaddate</td>
-                            <td>$status</td>
+                            <td>$text</td>
                             <td>
                                  <a href='modifyuploadlaptop.php?id=$l_id' class='colorupdate' />Update</a>
                             <a href='deleteuploadlaptop.php?id=$l_id' class='colordelete'  onclick='return confirmDelete()'>Delete</a>
