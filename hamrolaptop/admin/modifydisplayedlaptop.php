@@ -1,5 +1,12 @@
 <?php
 include "../connection.php";
+session_start();
+if (!isset($_SESSION['name'])) {
+  header("location: ../login.php");
+  exit();
+}
+
+
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
@@ -168,7 +175,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             <ul>
                 <li><a href="admindashboard.php"><i class="fas fa-solid fa-house"></i>Home</a></li>
 
-                <li><a href="adminprofile.php"><i class="fa-solid fa-user"></i>Admin Profile</a></li>
             </ul>
         </div>
     </label>
@@ -194,7 +200,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 <!--nav bar ends here-->
 
     <div class="container">
-        <h1>UploadLaptop</h1>
+        <h1>Modify Homepage Laptop <button> <a href="viewdisplayedlaptop.php" style="font-size:30px; color:darkgreen;">X</a></button></h1>
         <form id="laptopForm" method="post" enctype="multipart/form-data">
 
             <div class="form-group">

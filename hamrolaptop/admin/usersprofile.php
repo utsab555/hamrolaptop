@@ -231,17 +231,7 @@ if (!isset($_SESSION['name'])) {
         <div class="slide">
             <br><br>
             <ul>
-                <li><a href="index.php"><i class="fas fa-solid fa-house"></i>Home</a></li>
-                <li><a href="budget.php"><i class="fa-solid fa-laptop-code"></i>Budget Laptops</a></li>
-                <li><a href="buy.php"><i class="fa-solid fa-laptop"></i>Second-hand Laptops</a></li>
-                <div class="gapbuysell">
-
-                <li><a href="buy.php"><i class="fa-solid fa-cart-plus"></i>Buy</a></li>
-                <li><a href="sell.php"><i class="fa-solid fa-sack-dollar"></i></i>Sell</a></li>
-            </div>
-
-                <li><a href="userprofile.php"><i class="fa-solid fa-user"></i>Your Profile</a></li>
-                <li><a href="about.php"><i class="fa-solid fa-info"></i>About</a></li>
+                <li><a href="admindashboard.php"><i class="fas fa-solid fa-house"></i>Home</a></li>
             </ul>
         </div>
     </label>
@@ -252,15 +242,13 @@ if (!isset($_SESSION['name'])) {
   <div class="navdiv">
     <div class="logo">
 
-      <a href="index.php" class="title">Hamro laptop
+      <a href="admindashboard.php" class="title">Hamro laptop
 
       </a>
       <a style="margin-left: 190px;"> <img src="logo.jpg" height="30" /></a>
     </div>
     <ul>
-
-    <button><a href="../logout.php">Logout</a></button>
-
+      <button><a href="../logout.php">Logout</a></button>
   
     </ul>
   </div>

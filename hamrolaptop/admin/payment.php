@@ -1,8 +1,12 @@
 <?php
+include "../connection.php";
 session_start();
-include("../connection.php");
-?>
+if (!isset($_SESSION['name'])) {
+  header("location: ../login.php");
+  exit();
+}
 
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -37,8 +41,6 @@ include("../connection.php");
             <br><br>
             <ul>
                 <li><a href="admindashboard.php"><i class="fas fa-solid fa-house"></i>Home</a></li>
-
-                <li><a href="adminprofile.php"><i class="fa-solid fa-user"></i>Admin Profile</a></li>
             </ul>
         </div>
     </label>

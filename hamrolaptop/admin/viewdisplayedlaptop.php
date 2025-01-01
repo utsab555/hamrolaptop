@@ -1,7 +1,10 @@
 <?php
+include "../connection.php";
 session_start();
-include("../connection.php");
-
+if (!isset($_SESSION['name'])) {
+  header("location: ../login.php");
+  exit();
+}
 
 ?>
 
@@ -11,7 +14,7 @@ include("../connection.php");
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>View_budget_laptops</title>
+    <title>View_homepage_laptops</title>
     <link rel="website icon" href="logo.jpg" type="h/jpg" />
     <link rel="stylesheet" href="../style.css" />
     <style>
@@ -88,8 +91,6 @@ table a {
             <br><br>
             <ul>
                 <li><a href="admindashboard.php"><i class="fas fa-solid fa-house"></i>Home</a></li>
-
-                <li><a href="adminprofile.php"><i class="fa-solid fa-user"></i>Admin Profile</a></li>
             </ul>
         </div>
     </label>
@@ -113,7 +114,7 @@ table a {
 </nav>
 <br />
 <!--nav bar ends here-->
-        <h1 align="center">View Display Laptop <button><a href="admindashboard.php" style="font-size:30px; color:darkred;">X</a></button> </h1>
+        <h1 align="center">View Homepage Laptop <button><a href="admindashboard.php" style="font-size:30px; color:darkred;">X</a></button> </h1>
         <table class="table table-success table-striped">
         <thead>
             <tr>
