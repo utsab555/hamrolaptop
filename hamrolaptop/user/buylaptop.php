@@ -175,7 +175,7 @@ if (!isset($_SESSION['name'])) {
  
         $l_id = $_GET['id'];
 
-        $query = "SELECT * FROM second_hand_laptops WHERE l_id = '$l_id'";
+        $query = "SELECT * FROM laptops WHERE l_id = '$l_id' and category='second-hand'";
         $result = mysqli_query($conn, $query);
         if ($result && mysqli_num_rows($result) > 0) {
             while ($row = mysqli_fetch_assoc($result)) {
@@ -217,7 +217,7 @@ if (!isset($_SESSION['name'])) {
             <!-- Laptop Details Card -->
             <div class='card'>
                 <h2 class='card-title'>Laptop Details</h2>
-                <img src='../second_hand_laptops/$imageUrl' alt='Laptop' class='laptop-image'>
+                <img src='../laptops/$imageUrl' alt='Laptop' class='laptop-image'>
                 
                 <div class='laptop-details'>
                 <div class='price-item'>
@@ -234,6 +234,17 @@ if (!isset($_SESSION['name'])) {
                     <div class='price-item total'>
                         <span style='color: black;'><strong>Amount</strong></span>
                         <span>रु. $l_amount</span>
+                    </div>
+                     <div class='price-item total'>
+                        <span style='color: black;'><strong>Platform Charge</strong></span>
+                        <span>रु.".$l_amount*0.05."</span>
+                    </div>
+                     <div class='price-item total'>
+                        <span style='color: black;'><strong>Total Amount</strong></span>
+                        <span>रु.".$l_amount+($l_amount*0.05)."</span>
+                    </div>
+                    <div>
+                        <p><strong>Your 5% of the sale amount will be taken by Hamro laptop</strong></p>
                     </div>
                 </div>
             </div>
@@ -259,7 +270,7 @@ if (!isset($_SESSION['name'])) {
             }
             else{
 
-                $seller_query = "select l_userid from second_hand_laptops where l_id = '$l_id';";
+                $seller_query = "select l_userid from laptops where l_id = '$l_id' and category='second-hand';";
                 $result = mysqli_query($conn, $seller_query);
                 $row = mysqli_fetch_assoc($result);
                 $seller_id = $row['l_userid'];
@@ -267,12 +278,12 @@ if (!isset($_SESSION['name'])) {
             
         
             $insert_query = "INSERT INTO orders (buyer_id,seller_id, laptop_id, address) VALUES ('$user_id','$seller_id', '$l_id', '$shipping_address')";
-            $set_ordered = "UPDATE second_hand_laptops SET approval_status = 'ordered' WHERE l_id = '$l_id'";
+            $set_ordered = "UPDATE laptops SET approval_status = 'ordered' WHERE l_id = '$l_id' and category='second-hand'";
             $resultinsert = mysqli_query($conn, $insert_query);
             $resultset = mysqli_query($conn, $set_ordered);
 
             if ($resultinsert && $resultset) {
-            echo "<p>Order placed successfully!</p>";
+               echo "Order Placed Successfully"
             } else {
                 echo "<p>Error placing order: " . mysqli_error($conn) . "</p>";
             }

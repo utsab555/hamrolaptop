@@ -361,7 +361,7 @@ if ($result->num_rows > 0) {
           <!-- Cards Section -->
           <div id="cardcontainer">
             <?php
-               $sql = "SELECT s.l_id,s.l_name,u.fullname as username,u.id ,s.l_model,s.l_processor,s.l_ram,s.l_storage,s.l_display,s.l_amount,s.l_addinfo,s.l_image,s.l_uploaddate,s.approval_status from second_hand_laptops s join users u on s.l_userid = u.id where s.approval_status='approved' and u.id=$user_id";
+               $sql = "SELECT s.l_id,s.l_name,u.fullname as username,u.id ,s.l_model,s.l_processor,s.l_ram,s.l_storage,s.l_display,s.l_amount,s.l_addinfo,s.l_image,s.l_uploaddate,s.approval_status from laptops s join users u on s.l_userid = u.id where s.approval_status='approved' and u.id=$user_id and s.category='second-hand'";
                $result = mysqli_query($conn, $sql);
       
             if ($result) {
@@ -380,7 +380,7 @@ if ($result->num_rows > 0) {
                 echo "
                 <div>
                   <b>$l_name</b>
-                  <img src='../user_upload_laptops/$imageUrl' alt='$l_name'>
+                  <img src='../laptops/$imageUrl' alt='$l_name'>
 <div class='parag'>
                   <p>Price: रु. $l_amount</p>
                   <br>

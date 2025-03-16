@@ -197,117 +197,95 @@ if (!isset($_SESSION['name'])) {
             $user_id = $_SESSION['id'];
 
            
-    $sql = "SELECT 
-    w.wishlist_id, 
-    w.blaptop_id, 
-    w.dlaptop_id, 
-    w.added_at,
-    -- Budget Laptop Details
-    bl.l_name AS budget_laptop_name, 
-    bl.l_model AS budget_laptop_model, 
-    bl.l_processor AS budget_laptop_processor,
-    bl.l_ram AS budget_laptop_ram, 
-    bl.l_storage AS budget_laptop_storage, 
-    bl.l_display AS budget_laptop_display, 
-    bl.l_amount AS budget_laptop_amount, 
-    bl.l_addinfo AS budget_laptop_addinfo, 
-    bl.l_image AS budget_laptop_image,
-    -- Displayed Laptop Details
-    dl.l_name AS displayed_laptop_name, 
-    dl.l_model AS displayed_laptop_model, 
-    dl.l_processor AS displayed_laptop_processor,
-    dl.l_ram AS displayed_laptop_ram, 
-    dl.l_storage AS displayed_laptop_storage, 
-    dl.l_display AS displayed_laptop_display, 
-    dl.l_amount AS displayed_laptop_amount, 
-    dl.l_addinfo AS displayed_laptop_addinfo, 
-    dl.l_image AS displayed_laptop_image
-FROM 
-    wishlist w 
-LEFT JOIN 
-    budget_laptops bl ON w.blaptop_id = bl.l_id 
-LEFT JOIN 
-    displayed_laptops dl ON w.dlaptop_id = dl.l_id 
-WHERE 
-    w.user_id = '$user_id';
-";
+            $sql = "
+            SELECT 
+                w.wishlist_id, 
+                w.laptop_id, 
+                w.added_at,
+                -- Laptop Details
+                l.l_name AS laptop_name, 
+                l.l_model AS laptop_model, 
+                l.l_processor AS laptop_processor,
+                l.l_ram AS laptop_ram, 
+                l.l_storage AS laptop_storage, 
+                l.l_display AS laptop_display, 
+                l.l_amount AS laptop_amount, 
+                l.l_addinfo AS laptop_addinfo, 
+                l.l_image AS laptop_image,
+                -- Category (Budget or Displayed)
+                l.category AS laptop_category
+            FROM 
+                wishlist w 
+            LEFT JOIN 
+                laptops l ON w.laptop_id = l.l_id 
+            WHERE 
+                w.user_id = '$user_id';
+            ";
+            
+            $result = mysqli_query($conn, $sql);
 
-$result = mysqli_query($conn, $sql);
-
-if ($result) {
-    while ($row = mysqli_fetch_assoc($result)) {
-        $wishlist_id = $row['wishlist_id'];
-        $added_at = $row['added_at'];
-
-        // Budget Laptop Details
-        $bl_name = $row['budget_laptop_name'];
-        $bl_model = $row['budget_laptop_model'];
-        $bl_processor = $row['budget_laptop_processor'];
-        $bl_ram = $row['budget_laptop_ram'];
-        $bl_storage = $row['budget_laptop_storage'];
-        $bl_display = $row['budget_laptop_display'];
-        $bl_amount = $row['budget_laptop_amount'];
-        $bl_addinfo = $row['budget_laptop_addinfo'];
-        $bl_image = $row['budget_laptop_image'];
-
-        // Displayed Laptop Details
-        $dl_name = $row['displayed_laptop_name'];
-        $dl_model = $row['displayed_laptop_model'];
-        $dl_processor = $row['displayed_laptop_processor'];
-        $dl_ram = $row['displayed_laptop_ram'];
-        $dl_storage = $row['displayed_laptop_storage'];
-        $dl_display = $row['displayed_laptop_display'];
-        $dl_amount = $row['displayed_laptop_amount'];
-        $dl_addinfo = $row['displayed_laptop_addinfo'];
-        $dl_image = $row['displayed_laptop_image'];
-
-        // Display the information
-        if($bl_name){
-
-        
-        echo "
-        <div>
-            <b>$bl_name</b>
-            <img src='../budget_laptops/$bl_image' alt='$bl_name'>
-            <div class='parag'>
-                <p>Price: रु. $bl_amount</p>
-                <br>
-                <p style='text-align:left; color: #28a745;'>Specification:</p>
-                <p style='text-align:left;'>Model: $bl_model</p>
-                <p style='text-align:left;'>Processor: $bl_processor</p>
-                <p style='text-align:left;'>Ram: $bl_ram</p>
-                <p style='text-align:left;'>Storage: $bl_storage</p>
-                <p style='text-align:left;'>Display: $bl_display</p>
-                <p style='text-align:left;'>Added on: $added_at</p>
-                <br>
-                <a href='removewishlist.php?id=$wishlist_id' class='buy-btn'>Remove from Wishlist</a>
-            </div>
-        </div>";
-        }
-
-        // Check if there is a displayed laptop, if available, display its details
-        if ($dl_name) {
-            echo "
-            <div>
-                <b>$dl_name</b>
-                <img src='../displayed_laptops/$dl_image' alt='$dl_name'>
-                <div class='parag'>
-                    <p>Price: रु. $dl_amount</p>
-                    <br>
-                    <p style='text-align:left; color: #28a745;'>Specification:</p>
-                    <p style='text-align:left;'>Model: $dl_model</p>
-                    <p style='text-align:left;'>Processor: $dl_processor</p>
-                    <p style='text-align:left;'>Ram: $dl_ram</p>
-                    <p style='text-align:left;'>Storage: $dl_storage</p>
-                    <p style='text-align:left;'>Display: $dl_display</p>
-                    <p style='text-align:left;'>Added on: $added_at</p>
-                    <br>
-                    <a href='removewishlist.php?id=$wishlist_id' class='buy-btn'>Remove from Wishlist</a>
-                </div>
-            </div>";
-        }
-    }
-}
+            if ($result) {
+                while ($row = mysqli_fetch_assoc($result)) {
+                    $wishlist_id = $row['wishlist_id'];
+                    $added_at = $row['added_at'];
+            
+                    // Laptop Details
+                    $laptop_name = $row['laptop_name'];
+                    $laptop_model = $row['laptop_model'];
+                    $laptop_processor = $row['laptop_processor'];
+                    $laptop_ram = $row['laptop_ram'];
+                    $laptop_storage = $row['laptop_storage'];
+                    $laptop_display = $row['laptop_display'];
+                    $laptop_amount = $row['laptop_amount'];
+                    $laptop_addinfo = $row['laptop_addinfo'];
+                    $laptop_image = $row['laptop_image'];
+                    $laptop_category = $row['laptop_category']; // 'budget' or 'displayed'
+            
+                    // Display laptop information based on category
+                    if ($laptop_category == 'budget') {
+                        echo "
+                        <div>
+                            <b>$laptop_name (Budget)</b>
+                            <img src='../laptops/$laptop_image' alt='$laptop_name'>
+                            <div class='parag'>
+                                <p>Price: रु. $laptop_amount</p>
+                                <br>
+                                <p style='text-align:left; color: #28a745;'>Specification:</p>
+                                <p style='text-align:left;'>Model: $laptop_model</p>
+                                <p style='text-align:left;'>Processor: $laptop_processor</p>
+                                <p style='text-align:left;'>Ram: $laptop_ram</p>
+                                <p style='text-align:left;'>Storage: $laptop_storage</p>
+                                <p style='text-align:left;'>Display: $laptop_display</p>
+                                <p style='text-align:left;'>Added on: $added_at</p>
+                                <br>
+                                <a href='removewishlist.php?id=$wishlist_id' class='buy-btn'>Remove from Wishlist</a>
+                            </div>
+                        </div>";
+                    }
+            
+                    if ($laptop_category == 'displayed') {
+                        echo "
+                        <div>
+                            <b>$laptop_name (Displayed)</b>
+                            <img src='../laptops/$laptop_image' alt='$laptop_name'>
+                            <div class='parag'>
+                                <p>Price: रु. $laptop_amount</p>
+                                <br>
+                                <p style='text-align:left; color: #28a745;'>Specification:</p>
+                                <p style='text-align:left;'>Model: $laptop_model</p>
+                                <p style='text-align:left;'>Processor: $laptop_processor</p>
+                                <p style='text-align:left;'>Ram: $laptop_ram</p>
+                                <p style='text-align:left;'>Storage: $laptop_storage</p>
+                                <p style='text-align:left;'>Display: $laptop_display</p>
+                                <p style='text-align:left;'>Added on: $added_at</p>
+                                <br>
+                                <a href='removewishlist.php?id=$wishlist_id' class='buy-btn'>Remove from Wishlist</a>
+                            </div>
+                        </div>";
+                    }
+                }
+            }
+            
 
             ?>
           </div>

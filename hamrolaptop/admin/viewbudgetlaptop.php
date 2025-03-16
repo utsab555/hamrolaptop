@@ -130,7 +130,7 @@ table a {
         </thead>
         <tbody>
             <?php
-                $sql = "SELECT l_id,l_name,l_model,l_processor,l_ram,l_storage,l_display,l_amount,l_addinfo,l_image,l_uploaddate from budget_laptops";
+                $sql = "SELECT l_id,l_name,l_model,l_processor,l_ram,l_storage,l_display,l_amount,l_addinfo,l_image,l_uploaddate from laptops where category='budget'";
                 $result = mysqli_query($conn, $sql);
 
                 if ($result) {

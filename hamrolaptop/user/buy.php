@@ -186,7 +186,7 @@ if(isset($_GET['error'])){
 
         .spec-item {
             font-size: 0.875rem;
-            color: #374151;
+            color:rgb(229, 231, 235);
         }
 
         .spec-label {
@@ -273,7 +273,8 @@ if(isset($_GET['error'])){
                         color:rgb(0, 0, 0);
                         text-decoration: none;
                         transition: color 0.3s ease;
-                    }
+                        position: relative;
+                        left: 15rem;                    }
 
                     .userprofile a:hover {
                         color:rgb(255, 255, 255);
@@ -381,28 +382,31 @@ if(isset($_GET['error'])){
           <br>
           <br>
 <h1 style=" font-size: 50px; text-align:center;">Find Second Hand Laptops For You</h1>
-      
-      <!--search bar-->
-      <div class="searchbar">
-        <img src="search.png" height="40" class="searchimg" />
-        <input type="search" placeholder="Search.." class="searchinput" />
-        <button class="searchbtn"><a>Search</a></button>
-      </div>
-      <br>
-      <!--Search bar ends-->
-      <h1 style=" font-size: 20px; text-align:center;">Second Hand Laptops</h1>
+             <!--search bar-->
+             <form action="" method="GET">
+          <div class="searchbar">
+            <img src="search.png" height="40" class="searchimg" />
+            <input type="search" placeholder="Search.." class="searchinput"  value="<?php if(isset($_GET['search'])){echo $_GET['search'];} ?>" name="search" required/>
+            <button type="submit" class="searchbtn"><a>Search</a></button>
+          </div>
+          </form>
+          <br>
+ <!-- search Section -->
 
-      <div class="product-container">
-<?php
-      $sql = "SELECT s.l_id, s.l_name, u.fullname as username, u.id, s.l_model, s.l_processor, s.l_ram, s.l_storage, s.l_display, s.l_amount, s.l_addinfo, s.l_image, s.l_uploaddate, s.approval_status 
-              FROM second_hand_laptops s 
+ <div id="cardcontainer">
+           <?php
+            //search bar code for displayed laptops
+            if(isset($_GET['search'])){
+              $search = $_GET['search'];
+              $sql = "SELECT s.l_id, s.l_name, u.fullname as username, u.id, s.l_model, s.l_processor, s.l_ram, s.l_storage, s.l_display, s.l_amount, s.l_addinfo, s.l_image, s.l_uploaddate, s.approval_status 
+              FROM laptops s 
               JOIN users u ON s.l_userid = u.id 
-              WHERE s.approval_status='approved'";
-      $result = mysqli_query($conn, $sql);
+              WHERE s.category='second-hand' and s.approval_status='approved'and l_name LIKE '%$search%' ";
+              $result = mysqli_query($conn, $sql);
+              if (mysqli_num_rows($result) > 0) {
+        foreach ($result as $row) {
 
-      if ($result) {
-        while ($row = mysqli_fetch_assoc($result)) {
-          $id = $row['l_id'];
+                $id = $row['l_id'];
           $name = $row['l_name'];
           $model = $row['l_model'];
           $processor = $row['l_processor'];
@@ -414,21 +418,18 @@ if(isset($_GET['error'])){
           $imageUrl = $row['l_image'];
           $username = $row['username'];
           $userid = $row['id'];
-
-          // Check if the current user is the owner of the laptop
           if ($userid != $_SESSION['id']) {
-              $buttons = "
-                  <a href='cart.php?id=$id' class='cart-btn'>Add to Cart</a>
-                  <a href='buylaptop.php?id=$id' class='buy-btn'>Buy</a>
-              ";
-          } else {
-              $buttons = "
-                  <a href='modifyuploadlaptop.php?id=$id' class='colorupdate'>Update</a>
-                  <a href='deleteuploadlaptop.php?id=$id' class='colordelete'>Delete</a>
-              ";
-          }
-
-          echo "
+            $buttons = "
+                <a href='cart.php?id=$id' class='cart-btn'>Add to Cart</a>
+                <a href='buylaptop.php?id=$id' class='buy-btn'>Buy</a>
+            ";
+        } else {
+            $buttons = "
+                <a href='modifyuploadlaptop.php?id=$id' class='colorupdate'>Update</a>
+                <a href='deleteuploadlaptop.php?id=$id' class='colordelete'>Delete</a>
+            ";
+        }
+                  echo "
           <div class='container'>
               <div class='product-card'>
                   <div class='product-image'>
@@ -477,6 +478,106 @@ if(isset($_GET['error'])){
                       </div>
 
                       <p class='vat-notice'>**Price is inclusive of VAT**</p>
+                  </div>
+              </div>
+          </div>
+          ";
+              
+                }
+              } else {  //if no result found
+                echo "<h1 style='text-align:center;color:red;'>No result found</h1>";   
+              }
+             }
+             ?>
+          </div>
+<!--end of search bar code-->
+      <h1 style=" font-size: 20px; text-align:center;">Second Hand Laptops</h1>
+
+      <div class="product-container">
+<?php
+      $sql = "SELECT s.l_id, s.l_name, u.fullname as username, u.id, s.l_model, s.l_processor, s.l_ram, s.l_storage, s.l_display, s.l_amount, s.l_addinfo, s.l_image, s.l_uploaddate, s.approval_status 
+              FROM laptops s 
+              JOIN users u ON s.l_userid = u.id 
+              WHERE s.approval_status='approved' and s.category='second-hand'";
+      $result = mysqli_query($conn, $sql);
+
+      if ($result) {
+        while ($row = mysqli_fetch_assoc($result)) {
+          $id = $row['l_id'];
+          $name = $row['l_name'];
+          $model = $row['l_model'];
+          $processor = $row['l_processor'];
+          $ram = $row['l_ram'];
+          $storage = $row['l_storage'];
+          $display = $row['l_display'];
+          $amount = $row['l_amount'];
+          $addinfo = $row['l_addinfo'];
+          $imageUrl = $row['l_image'];
+          $username = $row['username'];
+          $userid = $row['id'];
+
+          // Check if the current user is the owner of the laptop
+          if ($userid != $_SESSION['id']) {
+              $buttons = "
+                  <a href='cart.php?id=$id' class='cart-btn'>Add to Cart</a>
+                  <a href='buylaptop.php?id=$id' class='buy-btn'>Buy</a>
+              ";
+          } else {
+              $buttons = "
+                  <a href='modifyuploadlaptop.php?id=$id' class='colorupdate'>Update</a>
+                  <a href='deleteuploadlaptop.php?id=$id' class='colordelete'>Delete</a>
+              ";
+          }
+
+          echo "
+          <div class='container'>
+              <div class='product-card'>
+                  <div class='product-image'>
+                      <div class='price-container'>
+                          <span class='userprofile'><a title='See this seller's profile' href='sellerprofile.php?user_id=$userid&laptop_id=$id'>$username</a></span>
+                      </div>
+                      <br>
+                      <img src='$imageUrl' alt='$name'>
+                  </div>
+
+                  <div class='product-info'>
+                      <h1 class='product-title'>
+                          $name
+                      </h1>
+
+                      <div class='price-container'>
+                          <span class='current-price'>रु. ".$amount+($amount*0.05)."</span>
+                      </div>
+
+                      <div class='specifications'>
+                          <h2 class='spec-title'>Key Specifications:</h2>
+                          <ul class='spec-list'>
+                              <li class='spec-item'>
+                                  <span class='spec-label'>Model:</span> $model
+                              </li>
+                              <li class='spec-item'>
+                                  <span class='spec-label'>Processor:</span> $processor
+                              </li>
+                              <li class='spec-item'>
+                                  <span class='spec-label'>RAM:</span> $ram
+                              </li>
+                              <li class='spec-item'>
+                                  <span class='spec-label'>Storage:</span> $storage
+                              </li>
+                              <li class='spec-item'>
+                                  <span class='spec-label'>Display:</span> $display inch
+                              </li>
+                              <li class='spec-item'>
+                                  <span class='spec-label'>Additional Information:</span> $addinfo
+                              </li>
+                          </ul>
+                      </div>
+
+                      <div class='buttons'>
+                          $buttons
+                      </div>
+
+                      <p class='vat-notice'>**Price is inclusive of VAT and Platform Charge**</p>
                   </div>
               </div>
           </div>

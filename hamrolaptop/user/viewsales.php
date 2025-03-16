@@ -191,7 +191,7 @@ table a {
             <?php
             $user_id = $_SESSION['id'];
         
-                $sql = "SELECT l_id,l_name,l_model,l_processor,l_ram,l_storage,l_display,l_amount,l_addinfo,l_image,l_uploaddate,approval_status from second_hand_laptops where l_userid = $user_id";
+                $sql = "SELECT l_id,l_name,l_model,l_processor,l_ram,l_storage,l_display,l_amount,l_addinfo,l_image,l_uploaddate,approval_status from laptops where l_userid = $user_id and category='second-hand'";
                 $result = mysqli_query($conn, $sql);
 
                 $orderlaptop = "SELECT * FROM orders WHERE seller_id = $user_id";
@@ -247,10 +247,15 @@ table a {
                               <p>$status</p>
                               <p>by <a href='buyerprofile.php?user_id=$buyerid'>$buyername</a></p>
                           ";
+                          $button = "";
+
                       } else {
                           $text = "
                             <p>$status</p>
                           ";
+                          $button="    <a href='modifyuploadlaptop.php?id=$l_id' class='colorupdate' />Update</a>
+                            <a href='deleteuploadlaptop.php?id=$l_id' class='colordelete'  onclick='return confirmDelete()'>Delete</a>
+                            ";
                       }
                         
                         // Display each row
@@ -261,13 +266,10 @@ table a {
                             <td>$l_model $l_processor $l_ram $l_storage $l_display</td>
                             <td>$l_addinfo</td>
                             <td>$l_amount</td>
-                              <td><img src='../second_hand_laptops/$imageUrl' alt='Image' style='width: 100px; height: auto;'></td>
+                              <td><img src='../laptops/$imageUrl' alt='Image' style='width: 100px; height: auto;'></td>
                             <td>$uploaddate</td>
                             <td>$text</td>
-                            <td>
-                                 <a href='modifyuploadlaptop.php?id=$l_id' class='colorupdate' />Update</a>
-                            <a href='deleteuploadlaptop.php?id=$l_id' class='colordelete'  onclick='return confirmDelete()'>Delete</a>
-                            </td>
+                            <td>$button</td>
                         </tr>
                         ";
                     }

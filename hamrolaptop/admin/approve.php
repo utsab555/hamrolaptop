@@ -8,7 +8,7 @@ if (!isset($_SESSION['name'])) {
 
 
 $id = $_GET['id'];
-$sql = "update second_hand_laptops set approval_status='approved' where l_id=$id";
+$sql = "update laptops set approval_status='approved' where l_id=$id and category='second-hand'";
 $result = mysqli_query($conn, $sql);
 if ($result) {
     header("Location: viewuploadlaptop.php");

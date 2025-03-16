@@ -9,7 +9,7 @@ if (!isset($_SESSION['name'])) {
 
 
     $laptopId = $_GET['id'];
-    $sql = "delete from budget_laptops where l_id=$laptopId";
+    $sql = "delete from laptops where l_id=$laptopId and category='budget'";
 
     $result = mysqli_query($conn, $sql); // returns True if data is inserted
     if ($result) {

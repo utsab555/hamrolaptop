@@ -130,7 +130,7 @@ table a {
         </thead>
         <tbody>
             <?php
-                $sql = "SELECT l_id,l_name,l_model,l_processor,l_ram,l_storage,l_display,l_amount,l_addinfo,l_image,l_uploaddate from displayed_laptops";
+                $sql = "SELECT l_id,l_name,l_model,l_processor,l_ram,l_storage,l_display,l_amount,l_addinfo,l_image,l_uploaddate from laptops where category='displayed'";
                 $result = mysqli_query($conn, $sql);
 
                 if ($result) {
@@ -155,7 +155,7 @@ table a {
                             <td>$l_model $l_processor $l_ram $l_storage $l_display</td>
                             <td>$l_addinfo</td>
                             <td>$l_amount</td>
-                              <td><img src='../displayed_laptops/$imageUrl' alt='Image' style='width: 100px; height: auto;'></td>
+                              <td><img src='../laptops/$imageUrl' alt='Image' style='width: 100px; height: auto;'></td>
                             <td>$uploaddate</td>
                             <td>
                                  <a href='modifydisplayedlaptop.php?id=$l_id' class='colorupdate' />Update</a>

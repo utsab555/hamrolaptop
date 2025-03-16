@@ -126,30 +126,40 @@ table a {
                     <th scope="col">User Name</th>
                     <th scope="col">Profile Picture</th>
                     <th scope="col">Joined Date</th>
+                    <th scope="col">User Type</th>
                     <th scope="col">Action</th>
                 </tr>
             </thead>
             <tbody>
                 <?php
-                $sql = "SELECT id, fullname,created_at, image  FROM users";
+                $sql = "SELECT id, fullname,user_type,created_at, image  FROM users";
                 $result = mysqli_query($conn, $sql);
 
                 if ($result) {
                     while ($row = mysqli_fetch_assoc($result)) {
                         $id = $row['id'];
                         $username = $row['fullname'];
+                        $usertype = $row['user_type'];
                         $imageurl = $row['image'];
                         $joindate = $row['created_at']; 
                         // Display each row
+                        if($usertype == 'user'){
+                            $buttons = "<a href='delete_user.php?id=$id' class='colordelete' onclick='return confirmDelete()'>Delete</a>
+                            <a href='update_user_admin.php?id=$id' class='colorupdate' onclick='return confirmAdmin()'>Make Admin</a>";
+                        }else{
+                            $buttons = "<a href='delete_user.php?id=$id' class='colordelete' onclick='return confirmDelete()'>Delete</a>";
+                        }
                         echo "
                         <tr>
                             <th scope='row'>$id</th>
                             <td><a href='usersprofile.php?user_id=$id'>$username</td>
                             <td><img src='../$imageurl' alt='Image' style='width: 100px; height: 100px; object-fit: cover;'></td>
                             <td>$joindate</td>
+                            <td>$usertype</td>
+                            
 
                             <td>
-                                <a href='delete_user.php?id=$id' class='colordelete' onclick='return confirmDelete()'>Delete</a>
+                             $buttons
                             </td>
                         </tr>
                         ";
@@ -169,6 +179,11 @@ table a {
         <script>
             function confirmDelete() {
                 return confirm("Are you sure you want to delete this user?");
+            };
+
+            
+            function confirmAdmin() {
+                return confirm("Are you sure you want to make this user an admin?");
             };
         </script>
 </body>

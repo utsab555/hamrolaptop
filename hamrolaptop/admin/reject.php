@@ -9,7 +9,7 @@ if (!isset($_SESSION['name'])) {
 
 
 $id = $_GET['id'];
-$sql = "delete from second_hand_laptops where l_id=$id";
+$sql = "delete from laptops where l_id=$id and category='second-hand'";
 $result = mysqli_query($conn, $sql);
 if ($result) {
     header("Location: viewuploadlaptop.php");

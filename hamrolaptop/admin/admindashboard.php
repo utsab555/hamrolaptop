@@ -113,14 +113,18 @@ if (!isset($_SESSION['name'])) {
             display: flex;
             gap: 1rem;
             flex-wrap: wrap;
-            margin-left: 50px;
-            margin-right: 50px;
+            margin-left: 20px;
+            margin-right: 20px;
         }
 
         .button {
             flex: 1;
-            min-width: 150px;
-            padding: 0.75rem 1.5rem;
+            min-width: 100px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            padding: 0.75rem 0.75rem;
             border-radius: 6px;
             font-weight: 600;
             cursor: pointer;
@@ -142,6 +146,7 @@ if (!isset($_SESSION['name'])) {
             background:rgb(231, 4, 15);
             color: white;
             border: none;
+            margin-left: 40rem;
        margin-bottom: 20px;
           max-width: 100px;
          
@@ -178,23 +183,7 @@ if (!isset($_SESSION['name'])) {
 
 
   <body>
-    <!--side bar Nav starts here-->
-    <label>
-        <input type="checkbox" class="checkbox">
-        <div class="toggle">
-            <span class="top_line common"></span>
-            <span class="middle_line common"></span>
-            <span class="bottom_line common"></span>
-        </div>
-        <div class="slide">
-            <br><br>
-            <ul>
-                <li><a href="admindashboard.php"><i class="fas fa-solid fa-house"></i>Home</a></li>
-
-            </ul>
-        </div>
-    </label>
-<!--side bar Nav ends here-->
+ 
 
 <!--Nav bar-->
 <nav class="navbar">
@@ -236,17 +225,17 @@ $resultorders = $conn->query($sqlorders);
 $roworders = $resultorders->fetch_assoc();
 $totalorders = $roworders['totalorders'];
 
-$sqlbudgetlaptops = "SELECT count(*) as totalbudgetlaptops FROM budget_laptops";
+$sqlbudgetlaptops = "SELECT count(*) as totalbudgetlaptops FROM laptops where category='budget'";
 $resultbudgetlaptops = $conn->query($sqlbudgetlaptops);
 $rowbudgetlaptops = $resultbudgetlaptops->fetch_assoc();
 $totalbudgetlaptops = $rowbudgetlaptops['totalbudgetlaptops'];
 
-$sqldisplayedlaptops = "SELECT count(*) as totaldisplayedlaptops FROM displayed_laptops";
+$sqldisplayedlaptops = "SELECT count(*) as totaldisplayedlaptops FROM laptops where category='displayed'";
 $resultdisplayedlaptops = $conn->query($sqldisplayedlaptops);
 $rowdisplayedlaptops = $resultdisplayedlaptops->fetch_assoc();
 $totaldisplayedlaptops = $rowdisplayedlaptops['totaldisplayedlaptops'];
 
-$sqlpendinglaptops = "SELECT count(*) as totalpendinglaptops FROM second_hand_laptops where approval_status = 'pending'";
+$sqlpendinglaptops = "SELECT count(*) as totalpendinglaptops FROM laptops where approval_status = 'pending' AND category='second-hand'";
 $resultpendinglaptops = $conn->query($sqlpendinglaptops);
 $rowpendinglaptops = $resultpendinglaptops->fetch_assoc();
 $totalpendinglaptops = $rowpendinglaptops['totalpendinglaptops'];
@@ -271,6 +260,10 @@ $totalpendinglaptops = $rowpendinglaptops['totalpendinglaptops'];
         <h1><?php echo $_SESSION['name']; ?></h1>
         <p>Phone: <?php echo $_SESSION['phone'];?></p>
         <p>Admin since <?php echo $created_at ?></p>
+        <br>
+        <div class="buttons">
+          <a href="../logout.php" class="button button-logout">Log Out</a>
+          </div>
       </div>
     </div>
     <div class="profile-content">
@@ -296,10 +289,7 @@ $totalpendinglaptops = $rowpendinglaptops['totalpendinglaptops'];
             <div class="stat-value"><?php echo $totalorders; ?></div>
             <div class="stat-label">No of Orders</div>
           </div>
-          <div class="stat-item">
-            <div class="stat-value">#</div>
-            <div class="stat-label">No of Transactions</div>
-          </div>
+    
           <div class="stat-item">
             <div class="stat-value"><?php echo $totalusers; ?></div>
             <div class="stat-label">No of Users</div>
@@ -310,19 +300,18 @@ $totalpendinglaptops = $rowpendinglaptops['totalpendinglaptops'];
           <h3>Quick Actions</h3>
           <br>
           <div class="buttons">
+          <a href="insertdisplayedlaptop.php" class="button button-primary">Insert Homepage Laptops</a>
           <a href="viewdisplayedlaptop.php" class="button button-primary">View Homepage Laptops</a>
+          <a href="insertbudgetlaptop.php" class="button button-primary">Insert Budget Laptops</a>
           <a href="viewbudgetlaptop.php" class="button button-primary">View Budget Laptops</a>
           <a href="viewuploadlaptop.php" class="button button-primary">View User-Upload Laptops</a>
           <a href="orders.php" class="button button-primary">View Orders</a>
-          <a href="payments.php" class="button button-primary">View Transactions</a>
           <a href="listuser.php" class="button button-primary">View Users</a>
           </div>
         </div>
        
           <br>
-          <div class="buttons">
-          <a href="../logout.php" class="button button-logout">Log Out</a>
-          </div>
+         
        
       </div>
     </div>

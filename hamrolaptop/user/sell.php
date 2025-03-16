@@ -149,7 +149,7 @@ $l_display = "";
 $l_amount = "";
 $l_addinfo = "";
 $dbError = "";
-$uploadDir = '../user_upload_laptops/'; 
+$uploadDir = '../laptops/'; 
 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -175,7 +175,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
     if (move_uploaded_file($imageTmpName, $imagePath)) {
     
-    $sql = "insert into second_hand_laptops(l_name,l_model,l_processor,l_ram,l_storage,l_display,l_amount,l_addinfo,l_image,l_userid) values('$l_name','$l_model','$l_processor','$l_ram','$l_storage','$l_display','$l_amount','$l_addinfo','$imagePath','$user_id')";
+    $sql = "insert into laptops(l_name,l_model,l_processor,l_ram,l_storage,l_display,l_amount,l_addinfo,l_image,l_userid,category) values('$l_name','$l_model','$l_processor','$l_ram','$l_storage','$l_display','$l_amount','$l_addinfo','$imagePath','$user_id','second-hand')";
     $result = mysqli_query($conn, $sql); // returns True if data is inserted
     if ($result) {
         // f - Redirect user on login page
@@ -202,7 +202,7 @@ else{
 
 ?>
     <div class="container">
-        <h1>Sell Your Laptop</h1>
+        <h1>Sell Your Laptop<button><a href="index.php" style="font-size:30px; color:darkgreen;">X</a></button></h1>
         <form id="laptopForm"  method="POST" action="<?php echo $_SERVER["PHP_SELF"] ?>" onsubmit="return validateForm()" enctype="multipart/form-data">
             <div class="form-group">
                 <label for="image">Laptop Image:</label>

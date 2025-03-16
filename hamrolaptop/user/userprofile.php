@@ -268,7 +268,7 @@ $row = $result->fetch_assoc();
 $created_at = $row['created_at'];
 $imageUrl = $_SESSION['imageUrl'];
 
-$sql_sales = "SELECT COUNT(*) as count_sales FROM second_hand_laptops WHERE l_userid = $id";
+$sql_sales = "SELECT COUNT(*) as count_sales FROM laptops WHERE l_userid = $id and category='second-hand'";
 $result_sales = $conn->query($sql_sales);
 $row_sales = $result_sales->fetch_assoc();
 $count_sales = $row_sales['count_sales'];

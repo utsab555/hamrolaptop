@@ -132,7 +132,7 @@ table a {
         </thead>
         <tbody>
             <?php
-                $sql = "SELECT s.l_id,s.l_name,u.fullname as username,s.l_model,s.l_processor,s.l_ram,s.l_storage,s.l_display,s.l_amount,s.l_addinfo,s.l_image,s.l_uploaddate,s.approval_status from second_hand_laptops s join users u on s.l_userid = u.id where s.approval_status = 'pending'";
+                $sql = "SELECT s.l_id,s.l_name,u.fullname as username,s.l_model,s.l_processor,s.l_ram,s.l_storage,s.l_display,s.l_amount,s.l_addinfo,s.l_image,s.l_uploaddate,s.approval_status from laptops s join users u on s.l_userid = u.id where s.approval_status = 'pending' and s.category='second-hand'";
                 $result = mysqli_query($conn, $sql);
 
                
@@ -204,7 +204,7 @@ table a {
         </thead>
         <tbody>
             <?php
-                $sql = "SELECT s.l_id,s.l_name,u.fullname as username,s.l_model,s.l_processor,s.l_ram,s.l_storage,s.l_display,s.l_amount,s.l_addinfo,s.l_image,s.l_uploaddate,s.approval_status from second_hand_laptops s join users u on s.l_userid = u.id";
+                $sql = "SELECT s.l_id,s.l_name,u.fullname as username,s.l_model,s.l_processor,s.l_ram,s.l_storage,s.l_display,s.l_amount,s.l_addinfo,s.l_image,s.l_uploaddate,s.approval_status from laptops s join users u on s.l_userid = u.id where s.category='second-hand' and s.approval_status='approved'";
                 $result = mysqli_query($conn, $sql);
 
                

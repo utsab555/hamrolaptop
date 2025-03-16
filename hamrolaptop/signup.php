@@ -80,7 +80,8 @@ include "connection.php";
               $result = mysqli_query($conn, $sql); // returns True if data is inserted
               if ($result) {
                // f - Redirect user on login page
-                header('Location: login.php');
+
+                header('Location: login.php?signup=success');
               
               }
               else{
@@ -116,7 +117,7 @@ include "connection.php";
 
           <span id="emailerr" style="color:red;"></span>
           <span style="color:red;"><?php echo $dbError;?></span>
-          <input id="email" name="email" type="email" placeholder="Email" value="<?php echo $enteredEmail; ?>"/>
+          <input id="email" name="email" type="text" placeholder="Email" value="<?php echo $enteredEmail; ?>"/>
 
           <span id="passworderr" style="color:red;"></span>
           <input id="password" name="password" type="password" placeholder="Password" />
@@ -172,24 +173,26 @@ include "connection.php";
                 
                 hasError = true;
             }
-            
-            if(password === "" || password <= 6){
-                document.getElementById("passworderr").innerHTML = "Password must be more than 6 characters!";
-                
-                hasError = true;
-            }
 
-            if(confirmpassword === "" || !confirmpassword === password){
-                document.getElementById("confirmpassworderr").innerHTML = "Passwords don't match!";
-                
-                hasError = true;
+            const emailPattern =  /^[a-zA-Z0-9._%+-]+@[a-zA-Z.-]+\.com$/;
+            if (!emailPattern.test(email)) {
+              document.getElementById("emailerr").innerHTML = "Invalid email format!";
+              hasError = true;
             }
+            if (password === "" || password.length <= 6) {
+    document.getElementById("passworderr").innerHTML = "Password must be more than 6 characters!";
+    hasError = true;
+}
 
-            if(phone === "" || !phone === 10 ){
-                document.getElementById("phoneerr").innerHTML = "Phone number don't exist!";
-                
-                hasError = true;
-            }
+if (confirmpassword === "" || confirmpassword !== password) {
+    document.getElementById("confirmpassworderr").innerHTML = "Passwords do not match!";
+    hasError = true;
+}
+
+if (phone === "" || phone.length !== 10 || isNaN(phone)) {
+    document.getElementById("phoneerr").innerHTML = "Phone number must be exactly 10 digits!";
+    hasError = true;
+}
 
             if(address === ""){
                 document.getElementById("addresserr").innerHTML = "Not a valid address!";

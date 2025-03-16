@@ -185,7 +185,7 @@ if (!isset($_SESSION['name'])) {
 <br />
 <!--nav bar ends here-->
 
-<h1 align="center">Your Orders <button><a href="userprofile.php" style="font-size:40px; color:darkgreen;">X</a></button> </h1>
+<h1 align="center">Your Purchases <button><a href="userprofile.php" style="font-size:40px; color:darkgreen;">X</a></button> </h1>
 
 
 <div id="cardcontainer">
@@ -198,9 +198,9 @@ if (!isset($_SESSION['name'])) {
            
     $sql = "SELECT u.fullname,o.order_id, o.laptop_id,date(o.order_date) as ordered_at, l.l_name, l.l_model, l.l_processor, l.l_ram, l.l_storage, l.l_display, l.l_amount, l.l_addinfo, l.l_image , l.l_userid
         FROM orders o 
-        JOIN second_hand_laptops l ON o.laptop_id = l.l_id 
+        JOIN laptops l ON o.laptop_id = l.l_id 
         JOIN users u ON l.l_userid = u.id
-        WHERE o.buyer_id = '$user_id'";
+        WHERE o.buyer_id = '$user_id' and l.category='second-hand'";
 
     $result = mysqli_query($conn, $sql);
   

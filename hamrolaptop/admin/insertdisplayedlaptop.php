@@ -145,7 +145,7 @@ $l_display = "";
 $l_amount = "";
 $l_addinfo = "";
 $dbError = "";
-$uploadDir = '../displayed_laptops/'; 
+$uploadDir = '../laptops/'; 
 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -170,7 +170,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
     if (move_uploaded_file($imageTmpName, $imagePath)) {
     
-    $sql = "insert into displayed_laptops(l_name,l_model,l_processor,l_ram,l_storage,l_display,l_amount,l_addinfo,l_image) values('$l_name','$l_model','$l_processor','$l_ram','$l_storage','$l_display','$l_amount','$l_addinfo','$imagePath')";
+    $sql = "insert into laptops(l_name,l_model,l_processor,l_ram,l_storage,l_display,l_amount,l_addinfo,l_image,category) values('$l_name','$l_model','$l_processor','$l_ram','$l_storage','$l_display','$l_amount','$l_addinfo','$imagePath','displayed')";
     $result = mysqli_query($conn, $sql); // returns True if data is inserted
     if ($result) {
         // f - Redirect user on login page

@@ -198,8 +198,8 @@ if (!isset($_SESSION['name'])) {
            
     $sql = "SELECT c.cart_id, c.laptop_id,date(c.added_at) as added_at, l.l_name, l.l_model, l.l_processor, l.l_ram, l.l_storage, l.l_display, l.l_amount, l.l_addinfo, l.l_image 
         FROM cart c 
-        JOIN second_hand_laptops l ON c.laptop_id = l.l_id 
-        WHERE c.user_id = '$user_id' and l.approval_status='approved'";
+        JOIN laptops l ON c.laptop_id = l.l_id 
+        WHERE c.user_id = '$user_id' and l.approval_status='approved' and l.category='second-hand'";
 
     $result = mysqli_query($conn, $sql);
   
@@ -224,7 +224,7 @@ if (!isset($_SESSION['name'])) {
                 echo "
                 <div>
                   <b>$l_name</b>
-                  <img src='../second_hand_laptops/$imageUrl' alt='$l_name'>
+                  <img src='../laptops/$imageUrl' alt='$l_name'>
 <div class='parag'>
                   <p>Price: रु. $l_amount</p>
                   <br>

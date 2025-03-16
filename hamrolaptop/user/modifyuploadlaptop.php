@@ -13,7 +13,7 @@ $laptopId = $_GET['id'];
 $l_name = $l_model = $l_processor=$l_ram=$l_storage=$l_display=$l_addinfo = $l_amount = $l_image = "";
 
 if ($laptopId) {
-    $stmt = $conn->prepare("SELECT * FROM second_hand_laptops WHERE l_id=?");
+    $stmt = $conn->prepare("SELECT * FROM laptops WHERE l_id=? and category='second-hand'");
     $stmt->bind_param("i", $laptopId);
     $stmt->execute();
     $result = $stmt->get_result();
@@ -46,12 +46,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     // Handle image upload
     if ($l_image) {
-        $target_dir = '../second_hand_laptops/';
+        $target_dir = '../laptops/';
         $target_file = $target_dir . basename($_FILES["l_image"]["name"]);
         move_uploaded_file($_FILES["l_image"]["tmp_name"], $target_file);
     } else {
         // If no new image is uploaded, keep the existing image
-        $stmt = $conn->prepare("SELECT l_image FROM second_hand_laptops WHERE l_id=?");
+        $stmt = $conn->prepare("SELECT l_image FROM laptops WHERE l_id=? and category='second-hand'");
         $stmt->bind_param("i", $laptopId);
         $stmt->execute();
         $stmt->bind_result($existing_image);
@@ -61,10 +61,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
 
     if ($laptopId) {
-        $stmt = $conn->prepare("UPDATE `second_hand_laptops` SET l_name=?, l_model=?, l_processor=?,l_ram=?,l_storage=?,l_display=?, l_amount=?,l_addinfo=?, l_image=? WHERE l_id=?");
+        $stmt = $conn->prepare("UPDATE `laptops` SET l_name=?, l_model=?, l_processor=?,l_ram=?,l_storage=?,l_display=?, l_amount=?,l_addinfo=?, l_image=? WHERE l_id=? and category='second-hand'");
         $stmt->bind_param("sssssssssi", $l_name, $l_model, $l_processor,$l_ram,$l_storage,$l_display, $l_amount,$l_addinfo, $l_image, $laptopId);
         if ($stmt->execute()) {
-            header("Location: viewsales.php");
+            header("Location: buy.php");
             exit();
         } else {
             $dbError = "Update failed: " . $conn->error;
@@ -260,7 +260,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             <div class="form-group">
                 <label for="l_image">Laptop Image:</label>
                 <input type="file" id="l_image" name="l_image" accept="image/*" >
-                <?php if ($l_image) { echo "<img src='../budget_laptops/$l_image' alt='Laptop Image' width='100'><br>"; } ?>
+                <?php if ($l_image) { echo "<img src='../laptops/$l_image' alt='Laptop Image' width='100'><br>"; } ?>
             </div>
 
             <div class="form-group">

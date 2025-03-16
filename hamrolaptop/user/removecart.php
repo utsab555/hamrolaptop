@@ -6,6 +6,6 @@
 
     $result = mysqli_query($conn, $sql); // returns True if data is inserted
     if ($result) {
-      header('Location: viewcart.php');
+      header('Location: buy.php');
     }
 ?>

@@ -11,7 +11,7 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
     $id = intval($_GET['id']);
 
     // Prepare the SQL statement to delete the laptop with the specific id
-    $sql = "DELETE FROM second_hand_laptops WHERE l_id = ?";
+    $sql = "DELETE FROM laptops WHERE l_id = ? and category='second-hand'";
 
     // Initialize the prepared statement
     if ($stmt = $conn->prepare($sql)) {

@@ -77,6 +77,8 @@ if (!isset($_SESSION['name'])) {
                     <th scope="col">Laptop Image</th>
                     <th scope="col">Seller Name</th>
                     <th scope="col">Order date</th>
+                    <th scope="col">User Laptop Amount</th>
+                    <th scope="col">Commission Generated</th>
                 </tr>
             </thead>
             <tbody>
@@ -89,12 +91,13 @@ if (!isset($_SESSION['name'])) {
                  l.l_model AS laptop_model,
                  CONCAT(l.l_processor, ', ', l.l_ram, ', ', l.l_storage, ', ', l.l_display) AS laptop_specification,
                  l.l_image AS laptop_image,
+                 l.l_amount AS laptop_amount,
                  u_seller.fullname AS seller_name,
                  o.order_date
              FROM orders o
              LEFT JOIN users u_buyer ON o.buyer_id = u_buyer.id  
              LEFT JOIN users u_seller ON o.seller_id = u_seller.id  
-             LEFT JOIN second_hand_laptops l ON o.laptop_id = l.l_id
+             LEFT JOIN laptops l ON o.laptop_id = l.l_id where l.category='second-hand'
          ";
                 $result = mysqli_query($conn, $sql);
 
@@ -110,6 +113,8 @@ if (!isset($_SESSION['name'])) {
                         $laptop_image = $row['laptop_image'];
                         $order_date = $row['order_date'];
 
+                        $laptop_amount = $row['laptop_amount'];
+
                         // Display each row
                         echo "
                         <tr>
@@ -121,6 +126,8 @@ if (!isset($_SESSION['name'])) {
                             <td><img src='../second_hand_laptops/$laptop_image' style='width: 100px; height: auto;'></td>
                             <td>$seller_name</td>
                             <td>$order_date</td>
+                            <td>$laptop_amount</td>
+                            <td>".$laptop_amount*0.05."</td>
                         </tr>
                         ";
                     }
